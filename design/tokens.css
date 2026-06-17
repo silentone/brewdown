@@ -1,0 +1,66 @@
+/**
+ * The Brewdown design tokens
+ * Visual direction: FoxDoo warm editorial layout (https://foxdoo.ca/)
+ * Illustration style: flat outlined sticker look (architect-calculator app icon)
+ * Import in src/styles/global.css before Tailwind directives.
+ */
+
+:root {
+  /* Typography: match FoxDoo pairing */
+  --ff-display: "Cabinet Grotesk", "Mona Sans", ui-sans-serif, system-ui, sans-serif;
+  --ff-body: "General Sans", "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --ff-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Ink: warm charcoal browns */
+  --ink: #1d1814;
+  --ink-2: #4a3f33;
+  --ink-3: #7a6d5e;
+
+  /* Paper: cream backgrounds */
+  --paper: #fbf6ee;
+  --paper-2: #f3e9d7;
+  --paper-3: #ece0c8;
+
+  /* Brand: fox orange (CTAs, hero accents, chart series 1) */
+  --brand: #e8743f;
+  --brand-ink: #1d1814;
+  --brand-soft: #fbe6d6;
+  --brand-deep: #c96a32;
+
+  /* Sage / teal: secondary accent (chart series 2, illustration fills) */
+  --sage: #6b8e7f;
+  --sage-soft: #d8e3dc;
+  --teal: #5a8f8a;
+
+  /* Illustration: icon-style fills */
+  --illustration-bg: #d4874a;
+  --illustration-cream: #f5f0e6;
+  --illustration-outline: #1d1814;
+
+  /* Lines & shadows */
+  --line: rgba(29, 24, 20, 0.12);
+  --line-strong: rgba(29, 24, 20, 0.22);
+  --shadow-sm: 0 1px 0 rgba(29, 24, 20, 0.04), 0 1px 2px rgba(29, 24, 20, 0.04);
+  --shadow-md: 0 1px 2px rgba(29, 24, 20, 0.05), 0 8px 24px rgba(29, 24, 20, 0.06);
+  --shadow-lg: 0 24px 60px -20px rgba(29, 24, 20, 0.18), 0 8px 24px -8px rgba(29, 24, 20, 0.1);
+
+  /* Radius: FoxDoo scale */
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-xl: 32px;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: clamp(20px, 4vw, 48px);
+
+  /* Chart series (up to 6 methods + café baseline) */
+  --chart-1: var(--brand);
+  --chart-2: var(--sage);
+  --chart-3: #8b6b4a;
+  --chart-4: var(--teal);
+  --chart-5: #a67c52;
+  --chart-6: #4a6b8e;
+  --chart-grid: var(--line);
+  --chart-crossover: var(--ink);
+}

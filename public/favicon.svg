@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" aria-hidden="true">
+  <title>The Brewdown</title>
+  <rect x="10" y="10" width="108" height="108" rx="26" fill="#d4874a" stroke="#1d1814" stroke-width="3" stroke-linejoin="round"/>
+  <path
+    d="M34 54h42c3.5 0 6.5 3 6.5 6.5v30c0 9.5-7.5 17-17 17H44.5c-9.5 0-17-7.5-17-17v-30c0-3.5 3-6.5 6.5-6.5z"
+    fill="#f5f0e6"
+    stroke="#1d1814"
+    stroke-width="3"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M38 58h34v5.5c0 2.2-1.8 4-4 4H42c-2.2 0-4-1.8-4-4V58z"
+    fill="#e8743f"
+    stroke="#1d1814"
+    stroke-width="2.5"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M82 59c13 0 19 8.5 19 19s-6 19-19 19"
+    fill="none"
+    stroke="#5a8f8a"
+    stroke-width="8"
+    stroke-linecap="round"
+  />
+  <path
+    d="M82 59c13 0 19 8.5 19 19s-6 19-19 19"
+    fill="none"
+    stroke="#1d1814"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+  <path d="M48 40c0-5 3-7 3-11" stroke="#1d1814" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M60 38c0-6 3.5-8.5 3.5-13" stroke="#1d1814" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M72 40c0-5 3-7 3-11" stroke="#1d1814" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="92" cy="88" rx="7" ry="10" fill="#6b8e7f" stroke="#1d1814" stroke-width="2.5" transform="rotate(-25 92 88)"/>
+  <path d="M89 84c2 4 4 8 6 12" stroke="#1d1814" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,30 @@
+{
+  "name": "brewdown",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "^8.1.2",
+    "@tailwindcss/vite": "^4.3.1",
+    "@vercel/analytics": "^2.0.1",
+    "astro": "^6.4.7",
+    "layerchart": "^1.0.13",
+    "svelte": "^5.56.3",
+    "svelte-ux": "^1.0.10",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.9"
+  }
+}

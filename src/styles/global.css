@@ -1,0 +1,72 @@
+@import '../../design/tokens.css';
+@import 'tailwindcss';
+@config '../../tailwind.config.mjs';
+@source '../../node_modules/svelte-ux/dist/**/*.svelte';
+@source '../../node_modules/layerchart/dist/**/*.svelte';
+
+@layer base {
+  html {
+    @apply bg-paper font-body text-ink antialiased;
+  }
+
+  body {
+    @apply relative min-h-dvh;
+  }
+
+  /* Subtle paper grain (~3% opacity) per SPEC §7.5 */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px 180px;
+  }
+
+  body > * {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+@layer components {
+  .Collapse > button {
+    @apply px-4 py-3;
+  }
+
+  .advanced-options-field {
+    @apply transition-[opacity,transform] duration-200 ease-out;
+  }
+
+  .advanced-options-field--hidden {
+    @apply pointer-events-none opacity-0 translate-y-1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .advanced-options-field {
+      @apply transition-none;
+    }
+
+    .advanced-options-field--hidden {
+      @apply translate-y-0;
+    }
+  }
+}
+
+/* Unlayered so these beat LayerChart Tailwind stroke/fill utilities on SVG text */
+.brewdown-chart svg.overflow-visible {
+  paint-order: normal;
+}
+
+.brewdown-chart text.tickLabel,
+.brewdown-chart text.label {
+  fill: var(--ink-2) !important;
+  stroke: none !important;
+  stroke-width: 0 !important;
+  font-family: var(--ff-body);
+  font-size: 10px;
+  font-weight: 400 !important;
+}

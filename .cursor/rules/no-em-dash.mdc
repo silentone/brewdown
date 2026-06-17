@@ -1,0 +1,34 @@
+---
+description: Never use em dashes in any project text
+alwaysApply: true
+---
+
+# No em dashes
+
+**Never use an em dash** (the long dash character, Unicode U+2014).
+
+This applies everywhere: user-facing copy, SPEC, comments, commit messages, PR descriptions, Cursor rules, and chat replies about this project.
+
+## Use instead
+
+| Instead of | Use |
+|------------|-----|
+| Clause break | Comma, period, or semicolon |
+| Introducing a list or explanation | Colon |
+| Parenthetical aside | Commas or parentheses |
+| Ranges (years, pages) | "to" or a hyphen with spaces only when grammatically a compound modifier |
+
+## Examples
+
+```
+Bad:  Pods start cheap — but costs climb fast.
+Good: Pods start cheap, but costs climb fast.
+
+Bad:  One method — bean-to-cup — wins on savings.
+Good: One method, bean-to-cup, wins on savings.
+
+Bad:  See hook 1 — lines cross on the chart.
+Good: See hook 1: lines cross on the chart.
+```
+
+Before finishing any edit, scan changed files for U+2014 and replace every occurrence.
