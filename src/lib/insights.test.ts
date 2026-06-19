@@ -5,6 +5,8 @@ import {
   findPrimaryCrossover,
   formatYearApprox,
   heroInsightCopy,
+  shouldShowHeroInsight,
+  totalCostDifferencePercent,
 } from './insights';
 
 describe('insights', () => {
@@ -27,11 +29,54 @@ describe('insights', () => {
     expect(hero.variant).toBe('crossover');
     expect(copy).toContain('Bean-to-cup');
     expect(copy).toContain('pays for its higher machine cost');
+    expect(copy).toContain('per year in ongoing costs');
     expect(copy).toContain('fewer shop drinks per month');
+    expect(copy).not.toContain('5-year');
   });
 
   it('formats approximate years for display', () => {
     expect(formatYearApprox(2.34)).toBe('~2.3 years');
     expect(formatYearApprox(1)).toBe('~1 year');
+  });
+
+  it('hides hero insight when total cost spread is under 10%', () => {
+    const hero = buildHeroInsight(['pods', 'bean_to_cup'], inputs);
+    const closeTotals = {
+      ...hero,
+      variant: 'savings' as const,
+      crossover: null,
+      cheapest: {
+        ...hero.cheapest,
+        breakdown: { ...hero.cheapest.breakdown, total: 10_000 },
+      },
+      mostExpensive: {
+        ...hero.mostExpensive,
+        breakdown: { ...hero.mostExpensive.breakdown, total: 10_500 },
+      },
+    };
+
+    expect(totalCostDifferencePercent(10_000, 10_500)).toBeLessThan(10);
+    expect(shouldShowHeroInsight(closeTotals)).toBe(false);
+  });
+
+  it('shows hero insight when total cost spread is at least 10%', () => {
+    const hero = buildHeroInsight(['pods', 'bean_to_cup'], inputs);
+
+    expect(totalCostDifferencePercent(hero.cheapest.breakdown.total, hero.mostExpensive.breakdown.total)).toBeGreaterThanOrEqual(10);
+    expect(shouldShowHeroInsight(hero)).toBe(true);
+  });
+
+  it('uses single-method hero copy without comparison language', () => {
+    const hero = buildHeroInsight(['pods'], inputs);
+    const copy = heroInsightCopy(hero);
+
+    expect(hero.variant).toBe('single');
+    expect(hero.crossover).toBeNull();
+    expect(copy).toContain('Pre-packaged pods');
+    expect(copy).toContain('costs about');
+    expect(copy).toContain('per year in ongoing');
+    expect(copy).toContain('on shop drinks');
+    expect(copy).not.toContain('Switching from');
+    expect(copy).not.toContain('5-year');
   });
 });

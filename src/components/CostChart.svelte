@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { curveMonotoneX } from 'd3-shape';
   import { Circle, LineChart, Point, Text } from 'layerchart';
   import { METHODS, type MethodId } from '../data/methods';
@@ -9,8 +8,10 @@
     cumulativeBrewingCostSeries,
     type CalculatorInputs,
   } from '../lib/brewing-cost';
-  import { findPrimaryCrossover, formatYearApprox } from '../lib/insights';
+  import { findPrimaryCrossover } from '../lib/insights';
   import { formatUsd } from '../lib/format';
+
+  const CHART_HEIGHT = 288;
 
   const axisLabelProps = {
     fill: 'var(--ink-2)',
@@ -26,11 +27,7 @@
 
   let { selectedMethodIds, inputs }: Props = $props();
 
-  let chartReady = $state(false);
-
-  onMount(() => {
-    chartReady = true;
-  });
+  let containerWidth = $state(0);
 
   const sortedMethodIds = $derived(
     [...selectedMethodIds].sort((a, b) => a.localeCompare(b)),
@@ -59,12 +56,6 @@
 
   const crossover = $derived(findPrimaryCrossover(sortedMethodIds, inputs));
 
-  const crossoverLabel = $derived(
-    crossover
-      ? `${crossover.longTermCheaperLabel} overtakes ${crossover.upfrontCheaperLabel} after ${formatYearApprox(crossover.years)}`
-      : null,
-  );
-
   function formatMonthAxis(month: number): string {
     return String(month);
   }
@@ -75,101 +66,98 @@
 </script>
 
 <div class="space-y-3">
-  {#if crossoverLabel}
-    <p
-      class="rounded-md border border-brand/20 bg-brand-soft px-3 py-2 text-sm text-ink-2"
-      aria-live="polite"
-    >
-      <span class="font-medium text-ink">{crossoverLabel}</span>
-      <span class="text-ink-3">
-        {' '}
-        ({formatUsd(crossover?.cost ?? 0)} at crossover)
-      </span>
-    </p>
-  {/if}
-
   <div
     class="brewdown-chart w-full rounded-md border border-[var(--line)] bg-white p-2"
     role="img"
     aria-label="Cumulative brewing cost chart across selected methods"
   >
-    {#if chartReady}
-    <div class="h-72 min-h-[240px]">
-    <LineChart
-      data={[]}
-      x="month"
-      y="cost"
-      {series}
-      xDomain={[0, COMPARISON_MONTHS]}
-      legend={false}
-      grid={{ x: false, y: true }}
-      rule={false}
-      props={{
-        spline: { tweened: false, draw: false, curve: curveMonotoneX },
-        xAxis: {
-          label: 'Months',
-          format: formatMonthAxis,
-          ticks: [0, 12, 24, 36, 48, 60],
-          tickLabelProps: axisLabelProps,
-          labelProps: axisLabelProps,
-        },
-        yAxis: {
-          label: 'Cumulative cost',
-          format: formatCostAxis,
-          tickLabelProps: axisLabelProps,
-          labelProps: axisLabelProps,
-        },
-        grid: {
-          class: '[&_line]:stroke-[var(--chart-grid)]',
-        },
-      }}
-      padding={{ top: 12, right: 12, bottom: 28, left: 56 }}
+    <div
+      class="h-72 min-h-[240px]"
+      bind:clientWidth={containerWidth}
     >
-      {#snippet aboveMarks()}
-        {#if crossover}
-          <Point d={{ month: crossover.months, cost: crossover.cost }} let:x let:y>
-            <Circle
-              {x}
-              {y}
-              r={6}
-              fill="var(--brand-soft)"
-              stroke="var(--chart-crossover)"
-              strokeWidth={2}
-            />
-            <Text
-              value="×"
-              {x}
-              y={y - 14}
-              textAnchor="middle"
-              fill="var(--ink)"
-              stroke="none"
-              strokeWidth={0}
-              class="!stroke-none text-[10px] font-bold"
-            />
-          </Point>
-        {/if}
-      {/snippet}
-    </LineChart>
+      {#if containerWidth > 0}
+        {#key containerWidth}
+          <LineChart
+            data={[]}
+            x="month"
+            y="cost"
+            {series}
+            width={containerWidth}
+            height={CHART_HEIGHT}
+            xDomain={[0, COMPARISON_MONTHS]}
+            legend={false}
+            tooltip={false}
+            grid={{ x: false, y: true }}
+            rule={false}
+            props={{
+              spline: { tweened: false, draw: false, curve: curveMonotoneX },
+              xAxis: {
+                label: 'Months',
+                format: formatMonthAxis,
+                ticks: [0, 12, 24, 36, 48, 60],
+                tickLabelProps: axisLabelProps,
+                labelProps: axisLabelProps,
+              },
+              yAxis: {
+                label: 'Cumulative cost',
+                format: formatCostAxis,
+                tickLabelProps: axisLabelProps,
+                labelProps: axisLabelProps,
+              },
+              grid: {
+                class: '[&_line]:stroke-[var(--chart-grid)]',
+              },
+            }}
+            padding={{ top: 12, right: 12, bottom: 28, left: 56 }}
+          >
+            {#snippet aboveMarks()}
+              {#if crossover}
+                <Point d={{ month: crossover.months, cost: crossover.cost }} let:x let:y>
+                  <Circle
+                    cx={x}
+                    cy={y}
+                    r={6}
+                    fill="var(--brand-soft)"
+                    stroke="var(--chart-crossover)"
+                    strokeWidth={2}
+                  />
+                  <Text
+                    value="×"
+                    {x}
+                    y={y - 14}
+                    textAnchor="middle"
+                    fill="var(--ink)"
+                    stroke="none"
+                    strokeWidth={0}
+                    class="!stroke-none text-[10px] font-bold"
+                  />
+                </Point>
+              {/if}
+            {/snippet}
+          </LineChart>
+        {/key}
+      {:else}
+        <div class="flex h-full items-center justify-center text-sm text-ink-3">
+          Loading chart…
+        </div>
+      {/if}
     </div>
 
-    <div
-      class="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 px-1 text-xs text-ink-2"
-      aria-label="Chart series legend"
-    >
-      {#each series as item (item.key)}
-        <div class="flex items-center gap-1.5">
-          <span
-            class="inline-block h-3 w-3 shrink-0 rounded-full"
-            style:background-color={item.color}
-            aria-hidden="true"
-          ></span>
-          <span>{item.label}</span>
-        </div>
-      {/each}
-    </div>
-    {:else}
-      <div class="flex h-full items-center justify-center text-sm text-ink-3">
-        Loading chart…
+    {#if containerWidth > 0}
+      <div
+        class="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 px-1 text-xs text-ink-2"
+        aria-label="Chart series legend"
+      >
+        {#each series as item (item.key)}
+          <div class="flex items-center gap-1.5">
+            <span
+              class="inline-block h-3 w-3 shrink-0 rounded-full"
+              style:background-color={item.color}
+              aria-hidden="true"
+            ></span>
+            <span>{item.label}</span>
+          </div>
+        {/each}
       </div>
     {/if}
   </div>

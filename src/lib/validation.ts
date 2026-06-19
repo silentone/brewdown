@@ -1,4 +1,4 @@
-import type { MethodId, MethodInputValues } from '../data/methods';
+import { METHODS, type MethodId, type MethodInputValues } from '../data/methods';
 
 export interface ValidationResult {
   valid: boolean;
@@ -18,7 +18,7 @@ export function validateNonNegative(value: number): boolean {
 }
 
 export function validateSelectedMethods(selectedMethodIds: MethodId[]): boolean {
-  return selectedMethodIds.length >= 2;
+  return selectedMethodIds.length >= 1;
 }
 
 export function validateCalculatorInputs(input: {
@@ -37,7 +37,7 @@ export function validateCalculatorInputs(input: {
   }
 
   if (!validateSelectedMethods(input.selectedMethodIds)) {
-    errors.push('Select at least two brewing methods to compare.');
+    errors.push('Select at least one brewing method.');
   }
 
   return { valid: errors.length === 0, errors };
@@ -48,7 +48,7 @@ export function validateMethodInputValues(
   values: MethodInputValues,
 ): string[] {
   const errors: string[] = [];
-  const label = methodId.replace(/_/g, ' ');
+  const label = METHODS[methodId].label;
 
   if (!validateNonNegative(values.machineCost)) {
     errors.push(`${label}: Machine cost must be zero or greater.`);

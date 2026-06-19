@@ -1,9 +1,18 @@
 <script lang="ts">
-  import { Collapse, TextField, ToggleGroup, ToggleOption } from 'svelte-ux';
+  import { Collapse, ToggleGroup, ToggleOption } from 'svelte-ux';
+  import NumericField from './NumericField.svelte';
   import {
+    applyBulkGearPreset,
+    applyPodStylePreset,
+    BULK_GEAR_PRESET_IDS,
+    BULK_GEAR_PRESETS,
     METHODS,
+    POD_STYLE_PRESET_IDS,
+    POD_STYLE_PRESETS,
+    type BulkGearPreset,
     type MethodId,
     type MethodInputValues,
+    type PodStylePreset,
     type ShopPeriod,
   } from '../data/methods';
   import {
@@ -11,6 +20,7 @@
     fieldClasses,
     advancedOptionsFieldClasses,
     inlineShopPeriodToggleClasses,
+    toggleGroupClasses,
   } from '../lib/svelte-ux-classes';
 
   interface Props {
@@ -31,12 +41,12 @@
     onToggle,
   }: Props = $props();
 
-  const method = METHODS[methodId];
+  const method = $derived(METHODS[methodId]);
 
   const machineLabel = $derived(
     methodId === 'manual_espresso'
       ? 'Machine cost (includes grinder)'
-      : 'Machine cost (upfront)',
+      : 'Machine cost',
   );
 
   const ingredientLabel = $derived(
@@ -45,6 +55,14 @@
 
   function patch(next: Partial<MethodInputValues>) {
     onValuesChange({ ...values, ...next });
+  }
+
+  function handleGearPresetChange(preset: BulkGearPreset) {
+    patch(applyBulkGearPreset(preset, values.shopPeriod));
+  }
+
+  function handlePodStyleChange(style: PodStylePreset) {
+    patch(applyPodStylePreset(style, values.shopPeriod));
   }
 
   function handleCollapseChange(event: CustomEvent<{ open: boolean }>) {
@@ -68,36 +86,69 @@
   {/snippet}
 
   <div class="space-y-4">
+    {#if methodId === 'bulk_brew'}
+      <div>
+        <p class="mb-1.5 text-sm font-medium text-ink-2">Gear preset</p>
+        <ToggleGroup
+          value={values.gearPreset ?? 'drip'}
+          on:change={(e) => {
+            const v = e.detail.value as BulkGearPreset | null;
+            if (v) handleGearPresetChange(v);
+          }}
+          variant="none"
+          size="sm"
+          rounded={false}
+          classes={toggleGroupClasses}
+        >
+          {#each BULK_GEAR_PRESET_IDS as preset (preset)}
+            <ToggleOption value={preset}>{BULK_GEAR_PRESETS[preset].label}</ToggleOption>
+          {/each}
+        </ToggleGroup>
+      </div>
+    {:else if methodId === 'pods'}
+      <div>
+        <p class="mb-1.5 text-sm font-medium text-ink-2">Pod style</p>
+        <ToggleGroup
+          value={values.podStyle ?? 'kcup'}
+          on:change={(e) => {
+            const v = e.detail.value as PodStylePreset | null;
+            if (v) handlePodStyleChange(v);
+          }}
+          variant="none"
+          size="sm"
+          rounded={false}
+          classes={toggleGroupClasses}
+        >
+          {#each POD_STYLE_PRESET_IDS as style (style)}
+            <ToggleOption value={style}>{POD_STYLE_PRESETS[style].label}</ToggleOption>
+          {/each}
+        </ToggleGroup>
+      </div>
+    {/if}
+
     <div class="grid gap-4 sm:grid-cols-2">
-      <TextField
+      <NumericField
         label={machineLabel}
-        type="decimal"
+        currency
         value={values.machineCost}
-        on:change={(event) => patch({ machineCost: Number(event.detail.value ?? 0) })}
-        min={0}
-        step={1}
+        onchange={(machineCost) => patch({ machineCost })}
         classes={fieldClasses}
       />
 
-      <TextField
+      <NumericField
         label={ingredientLabel}
-        type="decimal"
+        currency
         value={values.ingredientCost}
-        on:change={(event) => patch({ ingredientCost: Number(event.detail.value ?? 0) })}
-        min={0}
-        step={method.ingredientModel === 'pods' ? 0.01 : 0.5}
+        onchange={(ingredientCost) => patch({ ingredientCost })}
         classes={fieldClasses}
       />
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2">
-      <TextField
+      <NumericField
         label="Shop drinks"
-        type="decimal"
         value={values.shopDrinks}
-        on:change={(event) => patch({ shopDrinks: Number(event.detail.value ?? 0) })}
-        min={0}
-        step={1}
+        onchange={(shopDrinks) => patch({ shopDrinks })}
         hint="Better home setups often mean fewer shop visits. Adjust if needed."
         classes={fieldClasses}
       >
@@ -117,7 +168,7 @@
             <ToggleOption value="month">mo</ToggleOption>
           </ToggleGroup>
         </div>
-      </TextField>
+      </NumericField>
 
       {#if method.fieldVisibility.includes('gramsPerCup')}
         <div
@@ -125,14 +176,11 @@
           aria-hidden={!showAdvancedOptions}
           inert={!showAdvancedOptions}
         >
-          <TextField
+          <NumericField
             label="Grams per cup"
-            type="decimal"
             value={values.gramsPerCup}
-            on:change={(event) => patch({ gramsPerCup: Number(event.detail.value ?? 0) })}
-            min={1}
-            step={1}
-            hint="Typical range: 12 to 18g for most brews."
+            onchange={(gramsPerCup) => patch({ gramsPerCup })}
+            hint="Typical range: 12 to 18g for most 8oz brews."
             disabled={!showAdvancedOptions}
             classes={fieldClasses}
           />
@@ -143,13 +191,10 @@
           aria-hidden={!showAdvancedOptions}
           inert={!showAdvancedOptions}
         >
-          <TextField
+          <NumericField
             label="Pods per cup"
-            type="decimal"
             value={values.podsPerCup}
-            on:change={(event) => patch({ podsPerCup: Number(event.detail.value ?? 0) })}
-            min={1}
-            step={1}
+            onchange={(podsPerCup) => patch({ podsPerCup })}
             disabled={!showAdvancedOptions}
             classes={fieldClasses}
           />

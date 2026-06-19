@@ -1,7 +1,11 @@
 <script lang="ts">
-  import { Card, TextField } from 'svelte-ux';
+  import { mdiChevronDown } from '@mdi/js';
+  import { Card, Icon } from 'svelte-ux';
+  import NumericField from './NumericField.svelte';
   import {
     DEFAULT_SELECTED_METHODS,
+    METHOD_GROUPS,
+    METHODS,
     createDefaultMethodInputsMap,
     type MethodId,
     type MethodInputValues,
@@ -10,9 +14,8 @@
     type CalculatorInputs,
     createDefaultCalculatorInputs,
   } from '../lib/brewing-cost';
-  import { cardClasses, advancedOptionsFieldClasses, fieldClasses } from '../lib/svelte-ux-classes';
+  import { cardClasses, advancedOptionsFieldClasses, advancedOptionsToggleClasses, fieldClasses } from '../lib/svelte-ux-classes';
   import { validateFullCalculator } from '../lib/validation';
-  import BreakdownTable from './BreakdownTable.svelte';
   import CostChart from './CostChart.svelte';
   import GlobalInputs from './GlobalInputs.svelte';
   import MethodPanel from './MethodPanel.svelte';
@@ -46,10 +49,7 @@
 
   let committedInputs = $state<CalculatorInputs>(createDefaultCalculatorInputs());
   let isUpdating = $state(false);
-  let openPanels = $state<Partial<Record<MethodId, boolean>>>({
-    pods: true,
-    bean_to_cup: true,
-  });
+  let openPanels = $state<Partial<Record<MethodId, boolean>>>({});
   let showAdvancedOptions = $state(false);
 
   const liveValidation = $derived(
@@ -102,6 +102,16 @@
   function updateMethodValues(methodId: MethodId, values: MethodInputValues) {
     methodInputs = { ...methodInputs, [methodId]: values };
   }
+
+  function toggleMethod(methodId: MethodId) {
+    if (selectedMethodIds.includes(methodId)) {
+      selectedMethodIds = selectedMethodIds.filter((id) => id !== methodId);
+      return;
+    }
+
+    selectedMethodIds = [...selectedMethodIds, methodId];
+    openPanels = { ...openPanels, [methodId]: true };
+  }
 </script>
 
 <section class="mx-auto max-w-container px-[var(--gutter)] pb-16">
@@ -115,10 +125,55 @@
 
         <GlobalInputs
           bind:cupsPerDay
-          bind:selectedMethodIds
-          bind:showAdvancedOptions
           errors={liveValidation.errors}
         />
+
+        <div>
+          <p class="mb-1 text-sm font-medium text-ink-2">Methods to compare</p>
+          {#if selectedMethodIds.length === 0}
+            <p class="mb-2 text-xs text-brand-deep" aria-live="polite">
+              Select at least one brewing method.
+            </p>
+          {:else if selectedMethodIds.length === 1}
+            <p class="mb-2 text-xs text-brand-deep" aria-live="polite">
+              Select at least two methods across any group.
+            </p>
+          {/if}
+          <div class="space-y-3" role="group" aria-label="Brewing methods">
+            {#each METHOD_GROUPS as group (group.id)}
+              <div class="method-group">
+                <p class="mb-1.5 text-xs font-medium text-ink-3">{group.label}</p>
+                <div class="flex flex-wrap gap-2">
+                  {#each group.methodIds as methodId (methodId)}
+                    <button
+                      type="button"
+                      class="method-pill-checkbox"
+                      aria-pressed={selectedMethodIds.includes(methodId)}
+                      onclick={() => toggleMethod(methodId)}
+                    >
+                      <span class="method-pill-checkbox__label">{METHODS[methodId].label}</span>
+                    </button>
+                  {/each}
+                </div>
+              </div>
+            {/each}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class={advancedOptionsToggleClasses.button}
+          aria-expanded={showAdvancedOptions}
+          onclick={() => (showAdvancedOptions = !showAdvancedOptions)}
+        >
+          <span class={advancedOptionsToggleClasses.label}>Advanced options</span>
+          <div
+            data-open={showAdvancedOptions}
+            class={advancedOptionsToggleClasses.icon}
+          >
+            <Icon data={mdiChevronDown} />
+          </div>
+        </button>
 
         <div>
           <p class="mb-3 font-mono text-xs uppercase tracking-wide text-ink-3">
@@ -130,7 +185,7 @@
                 {methodId}
                 values={methodInputs[methodId]}
                 onValuesChange={(values) => updateMethodValues(methodId, values)}
-                open={openPanels[methodId] ?? false}
+                open={openPanels[methodId] ?? true}
                 onToggle={handlePanelToggle}
                 {showAdvancedOptions}
               />
@@ -144,11 +199,10 @@
             aria-hidden={!showAdvancedOptions}
             inert={!showAdvancedOptions}
           >
-            <TextField
+            <NumericField
               label="Average shop drink price"
-              type="currency"
+              currency
               bind:value={pricePerShopDrink}
-              min={0}
               disabled={!showAdvancedOptions}
               classes={fieldClasses}
             />
@@ -170,7 +224,11 @@
           {/if}
         </div>
 
-        {#if !committedValidation.valid}
+        {#if selectedMethodIds.length === 0}
+          <p class="text-sm text-brand-deep">
+            Select at least one method to see brewing cost results.
+          </p>
+        {:else if !committedValidation.valid}
           <p class="text-sm text-ink-2">
             Adjust the inputs on the left. Results update automatically once values are valid.
           </p>
@@ -178,13 +236,6 @@
           <CostChart selectedMethodIds={selectedMethods} inputs={committedInputs} />
 
           <SummaryCards selectedMethodIds={selectedMethods} inputs={committedInputs} />
-
-          <div>
-            <p class="mb-3 font-mono text-xs uppercase tracking-wide text-ink-3">
-              Cost breakdown
-            </p>
-            <BreakdownTable selectedMethodIds={selectedMethods} inputs={committedInputs} />
-          </div>
         {/if}
         </div>
       {/snippet}

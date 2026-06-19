@@ -56,7 +56,7 @@
 - Blog or guide content
 - User accounts, saved scenarios, shareable URLs with encoded state (optional future)
 - Display advertising
-- Multi-currency support
+- Multi-currency support (see [BACKLOG.md](./BACKLOG.md))
 - Metric units as default (imperial first; metric toggle planned for later)
 
 ---
@@ -86,16 +86,18 @@ flowchart LR
 
 ### 4.1 Methods to compare (v1 — confirmed)
 
-| ID | Display name | Category | Ingredient model | Notes |
-|----|--------------|----------|------------------|-------|
-| `drip` | Drip / auto-drip | Home brew | Bulk (grams/lb) | Machine + filter + bulk ground/beans |
-| `pods` | Pre-packaged pods | Pre-packaged | Per pod/capsule | **Combined K-Cup and Nespresso** — user sets cost per pod; optional sub-type toggle for defaults only |
-| `french_press` | French press | Manual home | Bulk (grams/lb) | Low machine cost; bulk coffee |
-| `pour_over` | Pour-over | Manual home | Bulk (grams/lb) | Dripper + kettle; paper filters as consumable |
-| `manual_espresso` | Manual espresso | Manual home | Bulk (grams/lb) | Espresso machine + grinder (machine cost may include grinder); ~18g per double shot |
-| `bean_to_cup` | Bean-to-cup (super-automatic) | Machine + bulk beans | Bulk (grams/lb) | Higher machine cost; lower per-cup ingredient cost; **fewest default shop drinks** |
+| ID | Display name | Group | Ingredient model | Notes |
+|----|--------------|-------|------------------|-------|
+| `pods` | Pre-packaged pods | One-touch convenience | Per pod/capsule | Pod style preset (K-Cup / Nespresso) prefills machine and pod cost |
+| `bean_to_cup` | Bean-to-cup (super-automatic) | One-touch convenience | Bulk (grams/lb) | Higher machine cost; lower per-cup ingredient cost; **fewest default shop drinks** |
+| `bulk_brew` | Drip, press, or pour-over | Bulk home brewing | Bulk (grams/lb) | Gear preset (drip / French press / pour-over) prefills machine, ingredient, and shop defaults |
+| `manual_espresso` | Manual espresso | Espresso | Bulk (grams/lb) | Espresso machine + grinder (machine cost may include grinder); ~18g per double shot |
 
-**Pod method (`pods`) detail:** K-Cup and Nespresso are not separate comparison lines. One `pods` method covers both; the user enters **cost per pod/capsule** (and optional pod style preset to populate defaults: Keurig K-Cup vs Nespresso capsule).
+**Pod method (`pods`) detail:** K-Cup and Nespresso are not separate comparison lines. One `pods` method covers both; the user selects a **pod style preset** (K-Cup or Nespresso) to populate defaults, then can override cost per pod/capsule and machine cost.
+
+**Bulk brew method (`bulk_brew`) detail:** Drip, French press, and pour-over are not separate comparison lines. One `bulk_brew` method covers all three; the user selects a **gear preset** to populate machine, ingredient, and shop defaults. Grinder toggle deferred post-v1.
+
+**Method selector groups:** One-touch convenience (`pods`, `bean_to_cup`), Bulk home brewing (`bulk_brew`), Espresso (`manual_espresso`).
 
 **Manual espresso note:** “Cups per day” for espresso drinkers may mean shots/drinks; grams-per-cup default reflects a typical double shot (~18g). Copy should say “drinks” where helpful without forcing a separate input in v1.
 
@@ -219,10 +221,11 @@ Each selected method exposes a **collapsible section** or column with method-spe
 
 | Input | Applies to | Type | Default (proposed) | Notes |
 |-------|------------|------|-------------------|-------|
-| Pod style (defaults only) | `pods` | Select | `kcup` | `kcup` or `nespresso` — prefills cost per pod & machine cost; user can override |
-| Grams of coffee per cup | Bulk methods (`drip`, `french_press`, `pour_over`, `manual_espresso`, `bean_to_cup`) | Number | Method-specific (e.g. 15g; 18g for espresso) | Link to “typical range” hint |
+| Pod style (defaults only) | `pods` | Toggle | `kcup` | `kcup` or `nespresso` — prefills cost per pod & machine cost; user can override |
+| Gear preset (defaults only) | `bulk_brew` | Toggle | `drip` | `drip`, `french_press`, or `pour_over` — prefills machine, ingredient, shop drinks, and consumables |
+| Grams of coffee per cup | Bulk methods (`bulk_brew`, `manual_espresso`, `bean_to_cup`) | Number | Method-specific (e.g. 15g; 18g for espresso) | Link to “typical range” hint |
 | Cost of coffee ingredients | All home methods | Currency | Method-specific | Bulk: $/lb beans; `pods`: $/pod or $/capsule |
-| Machine cost (upfront) | All home methods | Currency | Method-specific | One-time purchase at t=0; manual espresso may bundle grinder into this field in v1 |
+| Machine cost | All home methods | Currency | Method-specific | One-time purchase at t=0; manual espresso may bundle grinder into this field in v1 |
 | Coffee shop drinks | **Each method** | Number | Method-specific (see §5.4) | Uses global period toggle (week/month); **key hook 2 input** |
 | Pods/capsules per cup | `pods` | Number | `1` | |
 | Annual consumables | Optional | Currency/year | `0` or method default | Drip filters, pour-over papers, descaling; converted to daily in formula |
@@ -236,12 +239,12 @@ Each selected method exposes a **collapsible section** or column with method-spe
 
 **Proposed default shop drinks (per month):**
 
-| Method | Shop drinks/month | Rationale |
-|--------|-------------------|-----------|
-| `pods` | 12 | Convenient but uninspiring; still hit the café often |
-| `drip` | 8 | Decent weekday coffee; occasional café treat |
-| `french_press` | 10 | Good flavor but hassle; café for convenience |
-| `pour_over` | 8 | Weekend ritual; weekday café runs |
+| Method / preset | Shop drinks/month | Rationale |
+|-----------------|-------------------|-----------|
+| `pods` (K-Cup or Nespresso) | 12 | Convenient but uninspiring; still hit the café often |
+| `bulk_brew` — drip | 8 | Decent weekday coffee; occasional café treat |
+| `bulk_brew` — French press | 10 | Good flavor but hassle; café for convenience |
+| `bulk_brew` — pour-over | 8 | Weekend ritual; weekday café runs |
 | `manual_espresso` | 5 | Café-quality shots at home; rare shop visits |
 | `bean_to_cup` | 4 | One-touch café drinks; minimal shop need |
 
@@ -312,7 +315,7 @@ FoxDoo-style patterns adapted for the calculator:
 - **Page shell:** warm `--paper` background; max-width container with `--gutter` padding
 - **Header:** minimal sticky nav — wordmark left, About / Privacy right; thin bottom border (`--line`)
 - **Hero band:** display headline + one-line value prop; optional **hero illustration** (outlined coffee tools cluster) on desktop right, hidden or simplified on mobile
-- **Eyebrow labels:** small mono caps above sections (e.g. `CALCULATOR · HOME BREWING COST`) — FoxDoo section-label pattern
+- **Eyebrow labels:** small mono caps above sections — FoxDoo section-label pattern
 - **Main grid:** two-column on desktop (inputs left, results right); stacks on mobile
 - **Cards:** `--paper-2` or white surface on `--paper`, `--r-lg` radius, `--shadow-md`; savings callout uses `--brand-soft` tint
 - **Footer:** muted `--ink-3` text, affiliate disclosure, ©
@@ -353,8 +356,8 @@ Recommendation: **debounced live update** for responsiveness, with chart animati
   - Bean-to-cup machine when `bean_to_cup` is selected or wins
   - Keurig / Nespresso machine or pods when `pods` is in comparison (match pod style preset if set)
   - Espresso machine / grinder when `manual_espresso` is selected
-  - Pour-over dripper / kettle when `pour_over` is selected
-  - Generic bulk coffee links for `drip`, `french_press`, and other bulk methods
+  - Pour-over dripper / kettle when `bulk_brew` gear preset is `pour_over`
+  - Generic bulk coffee links for `bulk_brew` and other bulk methods
 - Clear label: **“Affiliate link”** or “We may earn a commission”
 - Links open in new tab with `rel="noopener sponsored"`
 
@@ -598,7 +601,7 @@ Use **`client:load`** on `BrewdownApp` so inputs and chart are interactive immed
 
 Please answer these to finalize the spec:
 
-1. ~~**Custom brew methods**~~ — **Resolved.** v1 methods: `drip`, `pods`, `french_press`, `pour_over`, `manual_espresso`, `bean_to_cup`.
+1. ~~**Custom brew methods**~~ — **Resolved.** v1 methods: `pods`, `bean_to_cup`, `bulk_brew`, `manual_espresso`. Drip, French press, and pour-over are gear presets on `bulk_brew`; K-Cup and Nespresso are pod style presets on `pods`.
 2. ~~**Brewing cost model**~~ — **Resolved.** Machine cost upfront at t=0; no amortization; chart crossover is hook 1. User-facing term: **total cost of brewing at home**.
 3. ~~**Coffee shop modeling**~~ — **Resolved.** Shop drinks are **per comparison method** (week/month); global `price_per_drink`; optional café-only baseline checkbox. No standalone `coffee_shop` method.
 4. ~~**Stack & hosting**~~ — **Resolved.** Astro 5 with Svelte client islands; Tailwind CSS; Svelte UX + LayerChart; static output; deploy to Vercel.
@@ -644,7 +647,7 @@ Please answer these to finalize the spec:
 | Cups/day (home) | 2 | 2 |
 | Ingredient cost | $0.65 / pod | $12 / lb beans |
 | Pods or grams per cup | 1 pod | 15g |
-| Machine cost (upfront) | $120 | $800 |
+| Machine cost | $120 | $800 |
 | Shop drinks/month | 12 | 4 |
 | Price per shop drink (global) | $5.00 | $5.00 |
 
@@ -656,12 +659,25 @@ Please answer these to finalize the spec:
 
 | Method | Cost input unit | Machine? | Default shop drinks/mo |
 |--------|-----------------|----------|------------------------|
-| `drip` | $/lb | Yes | 8 |
 | `pods` | $/pod or $/capsule | Yes | 12 |
-| `french_press` | $/lb | Yes (low) | 10 |
-| `pour_over` | $/lb | Yes (low) | 8 |
-| `manual_espresso` | $/lb | Yes (higher) | 5 |
 | `bean_to_cup` | $/lb | Yes (highest) | 4 |
+| `bulk_brew` | $/lb | Yes | 8 (drip preset); 10 (French press); 8 (pour-over) |
+| `manual_espresso` | $/lb | Yes (higher) | 5 |
+
+**Bulk gear presets (`bulk_brew`):**
+
+| Preset | Machine | $/lb | Shop/mo |
+|--------|---------|------|---------|
+| drip | $45 | $10 | 8 |
+| french_press | $28 | $11 | 10 |
+| pour_over | $55 | $12 | 8 |
+
+**Pod style presets (`pods`):**
+
+| Preset | Machine | $/pod | Shop/mo |
+|--------|---------|-------|---------|
+| kcup | $120 | $0.65 | 12 |
+| nespresso | $180 | $0.75 | 12 |
 
 ---
 

@@ -33,6 +33,25 @@
 }
 
 @layer components {
+  .calculator-page-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        ellipse 50% 45% at 88% 10%,
+        color-mix(in srgb, var(--paper-3) 75%, var(--brand-soft)) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 85% 80% at 100% 0%,
+        var(--paper-3) 0%,
+        var(--paper-2) 38%,
+        var(--paper) 62%
+      );
+  }
+
   .Collapse > button {
     @apply px-4 py-3;
   }
@@ -53,6 +72,51 @@
     .advanced-options-field--hidden {
       @apply translate-y-0;
     }
+  }
+
+  .method-pill-checkbox {
+    @apply cursor-pointer gap-1 rounded-full border border-[var(--line)] bg-white px-3 py-1.5 text-sm font-medium text-ink shadow-sm transition-colors;
+  }
+
+  .method-pill-checkbox:has(input:checked) {
+    @apply border-brand bg-brand text-white;
+  }
+
+  .method-pill-checkbox[aria-pressed='true'] {
+    @apply border-brand bg-brand text-white;
+  }
+
+  .method-pill-checkbox:has(input:disabled) {
+    @apply cursor-not-allowed opacity-60;
+  }
+
+  .method-pill-checkbox:not(:has(input:checked)):not(:has(input:disabled)):hover {
+    @apply border-ink-3 bg-paper-2;
+  }
+
+  .method-pill-checkbox:has(input:focus-visible) {
+    @apply ring-2 ring-brand/20;
+  }
+
+  .method-pill-checkbox__box {
+    @apply !size-4 !min-w-4 !border-0 !bg-transparent !shadow-none !ring-0 !ring-offset-0;
+    @apply peer-hover:!border-0 peer-hover:!bg-transparent peer-focus-visible:!border-0 peer-focus-visible:!ring-0;
+  }
+
+  .method-pill-checkbox:has(input:checked) .method-pill-checkbox__box {
+    @apply !bg-transparent;
+  }
+
+  .method-pill-checkbox:not(:has(input:checked)) .method-pill-checkbox__box {
+    @apply !size-0 !min-w-0 !overflow-hidden;
+  }
+
+  .method-pill-checkbox__label {
+    @apply !pl-0 font-medium text-inherit;
+  }
+
+  .method-pill-checkbox__icon {
+    @apply !text-white;
   }
 }
 

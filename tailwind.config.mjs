@@ -21,7 +21,7 @@ export default {
       colors: {
         ink: { DEFAULT: '#1d1814', 2: '#4a3f33', 3: '#7a6d5e' },
         paper: { DEFAULT: '#fbf6ee', 2: '#f3e9d7', 3: '#ece0c8' },
-        brand: { DEFAULT: '#e8743f', soft: '#fbe6d6' },
+        brand: { DEFAULT: '#e8743f', soft: '#fbe6d6', deep: '#c96a32' },
         sage: { DEFAULT: '#6b8e7f', soft: '#d8e3dc' },
         teal: { DEFAULT: '#5a8f8a' },
       },

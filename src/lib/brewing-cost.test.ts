@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+  applyBulkGearPreset,
+  applyPodStylePreset,
   createDefaultMethodInputs,
   createDefaultMethodInputsMap,
   METHODS,
@@ -26,10 +28,46 @@ function defaultInputs(): CalculatorInputs {
 }
 
 describe('methods config', () => {
-  it('defines all six v1 methods with bulk or pods ingredient model', () => {
-    expect(Object.keys(METHODS)).toHaveLength(6);
+  it('defines all four v1 methods with bulk or pods ingredient model', () => {
+    expect(Object.keys(METHODS)).toHaveLength(4);
     expect(METHODS.pods.ingredientModel).toBe('pods');
     expect(METHODS.bean_to_cup.ingredientModel).toBe('bulk');
+    expect(METHODS.bulk_brew.ingredientModel).toBe('bulk');
+  });
+
+  it('bulk_brew with french_press gear preset matches former french_press defaults', () => {
+    const bulk = {
+      ...createDefaultMethodInputs('bulk_brew'),
+      ...applyBulkGearPreset('french_press'),
+    };
+    expect(bulk.machineCost).toBe(28);
+    expect(bulk.ingredientCost).toBe(11);
+    expect(bulk.shopDrinks).toBe(2);
+    expect(bulk.gearPreset).toBe('french_press');
+  });
+
+  it('applyBulkGearPreset pour_over sets machine $55 and ingredient $12/lb', () => {
+    const preset = applyBulkGearPreset('pour_over');
+    expect(preset.machineCost).toBe(55);
+    expect(preset.ingredientCost).toBe(12);
+    expect(preset.gearPreset).toBe('pour_over');
+    expect(preset.gramsPerCup).toBe(14);
+  });
+
+  it('applyBulkGearPreset uses defaultGramsPerCup from preset', () => {
+    expect(applyBulkGearPreset('drip').gramsPerCup).toBe(14);
+    expect(applyBulkGearPreset('french_press').gramsPerCup).toBe(15);
+    expect(applyBulkGearPreset('pour_over').gramsPerCup).toBe(14);
+  });
+
+  it('podStyle nespresso applies nespresso defaults', () => {
+    const pods = {
+      ...createDefaultMethodInputs('pods'),
+      ...applyPodStylePreset('nespresso'),
+    };
+    expect(pods.machineCost).toBe(180);
+    expect(pods.ingredientCost).toBe(0.75);
+    expect(pods.podStyle).toBe('nespresso');
   });
 
   it('uses Appendix A defaults for pods', () => {

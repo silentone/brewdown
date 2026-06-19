@@ -5,9 +5,11 @@ export const fieldClasses = {
     'rounded-md border border-[var(--line)] bg-white shadow-sm focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/20',
   label:
     'text-sm font-medium text-ink-2 group-hover:text-ink-2 group-focus-within:text-ink-2 group-hover:group-focus-within:text-ink-2',
-  input: 'text-ink placeholder:text-ink-3',
+  input: 'text-ink placeholder:text-ink-3 !overflow-visible whitespace-nowrap',
   error: 'text-sm text-brand-deep',
 } as const;
+
+export type FieldClasses = typeof fieldClasses;
 
 export const cardClasses = {
   root: 'rounded-lg border border-[var(--line)] bg-paper-2 shadow-md',
@@ -18,6 +20,13 @@ export const checkboxClasses = {
   root: 'gap-2.5',
   checkbox: 'border-ink-3 bg-white text-brand peer-checked:border-brand peer-checked:bg-brand',
   label: 'text-sm text-ink-2',
+} as const;
+
+export const methodPillCheckboxClasses = {
+  root: 'method-pill-checkbox',
+  checkbox: 'method-pill-checkbox__box',
+  label: 'method-pill-checkbox__label',
+  icon: 'method-pill-checkbox__icon',
 } as const;
 
 export const collapseClasses = {

@@ -7,6 +7,7 @@
     buildHeroInsight,
     buildMethodResults,
     heroInsightCopy,
+    shouldShowHeroInsight,
     type MethodResult,
   } from '../lib/insights';
   import { formatUsd } from '../lib/format';
@@ -27,7 +28,9 @@
   const results = $derived(buildMethodResults(sortedMethodIds, inputs));
   const hero = $derived(buildHeroInsight(sortedMethodIds, inputs));
   const heroCopy = $derived(heroInsightCopy(hero));
+  const showKeyInsight = $derived(shouldShowHeroInsight(hero));
   const comparisonYears = COMPARISON_MONTHS / 12;
+  const showRank = $derived(results.length > 1);
 
   function chipBorderColor(result: MethodResult): string {
     return colors[result.methodId];
@@ -35,15 +38,17 @@
 </script>
 
 <div class="space-y-5">
-  <div
-    class="rounded-lg border border-brand/25 bg-brand-soft px-4 py-4 md:px-5"
-    aria-live="polite"
-  >
-    <p class="font-mono text-xs uppercase tracking-wide text-brand-deep">Key insight</p>
-    <p class="mt-2 text-base font-medium leading-relaxed text-ink md:text-lg">
-      {heroCopy}
-    </p>
-  </div>
+  {#if showKeyInsight}
+    <div
+      class="rounded-lg border border-brand/25 bg-brand-soft px-4 py-4 md:px-5"
+      aria-live="polite"
+    >
+      <p class="font-mono text-xs uppercase tracking-wide text-brand-deep">Key insight</p>
+      <p class="mt-2 text-base font-medium leading-relaxed text-ink md:text-lg">
+        {heroCopy}
+      </p>
+    </div>
+  {/if}
 
   <div>
     <p class="mb-3 font-mono text-xs uppercase tracking-wide text-ink-3">
@@ -61,14 +66,18 @@
             <div class="flex items-start justify-between gap-3">
               <div>
                 <p class="font-medium text-ink">{result.label}</p>
-                <p class="text-xs text-ink-3">Rank #{result.rank}</p>
+                {#if showRank}
+                  <p class="text-xs text-ink-3">Rank #{result.rank}</p>
+                {/if}
               </div>
-              <span
-                class="rounded-sm bg-paper-3 px-2 py-0.5 font-mono text-xs text-ink-2"
-                style:color={chipBorderColor(result)}
-              >
-                #{result.rank}
-              </span>
+              {#if showRank}
+                <span
+                  class="rounded-sm bg-paper-3 px-2 py-0.5 font-mono text-xs text-ink-2"
+                  style:color={chipBorderColor(result)}
+                >
+                  #{result.rank}
+                </span>
+              {/if}
             </div>
 
             <div>
@@ -86,18 +95,18 @@
               <div class="rounded-sm bg-white/70 px-2.5 py-2">
                 <dt class="text-xs text-ink-3">Home ongoing</dt>
                 <dd class="font-mono text-ink">{formatUsd(result.breakdown.home)}</dd>
-              </div>
+              </div>              
               <div class="rounded-sm bg-white/70 px-2.5 py-2">
-                <dt class="text-xs text-ink-3">Shop ongoing</dt>
-                <dd class="font-mono text-ink">{formatUsd(result.breakdown.shop)}</dd>
-              </div>
-              <div class="rounded-sm bg-white/70 px-2.5 py-2">
-                <dt class="text-xs text-ink-3">$/drink equiv.</dt>
+                <dt class="text-xs text-ink-3">$/drink</dt>
                 <dd class="font-mono text-ink">
                   {result.breakdown.costPerDrink === null
                     ? 'N/A'
                     : formatUsd(result.breakdown.costPerDrink, 2)}
                 </dd>
+              </div>
+              <div class="rounded-sm bg-white/70 px-2.5 py-2">
+                <dt class="text-xs text-ink-3">Shop ongoing</dt>
+                <dd class="font-mono text-ink">{formatUsd(result.breakdown.shop)}</dd>
               </div>
             </dl>
             </div>

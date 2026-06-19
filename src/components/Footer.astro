@@ -1,6 +1,30 @@
+---
+const nav = [
+  { href: '/', label: 'Calculator' },
+  { href: '/about', label: 'About' },
+  { href: '/privacy', label: 'Privacy' },
+];
+---
+
 <footer class="border-t border-[var(--line)] bg-paper-2">
   <div class="mx-auto max-w-container px-[var(--gutter)] py-8">
-    <p class="text-sm text-ink-3">
+    <nav aria-label="Site">
+      <ul class="flex flex-wrap items-center gap-x-6 gap-y-2">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="text-sm font-medium text-ink-2 transition-colors hover:text-brand"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <p class="mt-6 text-sm text-ink-3">
       The Brewdown provides illustrative cost estimates only, not financial advice.
       Some links are affiliate links; we may earn a commission at no extra cost to you.
       <a href="/privacy" class="text-ink-2 underline hover:text-brand">Privacy &amp; disclosures</a>

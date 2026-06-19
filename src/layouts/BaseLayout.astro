@@ -1,6 +1,5 @@
 ---
 import Analytics from '@vercel/analytics/astro';
-import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 
@@ -10,8 +9,8 @@ interface Props {
 }
 
 const {
-  title = 'The Brewdown: Coffee Cost Calculator, Compare Pods, Drip, Pour-Over, Espresso & Bean-to-Cup',
-  description = 'Compare the total cost of brewing at home for pods, drip, pour-over, espresso, and bean-to-cup. See when bulk brewing overtakes pods and how fewer shop visits add up.',
+  title = 'The Brewdown: Coffee Cost Calculator, Compare Pods, Bean-to-Cup, Bulk Brew & Espresso',
+  description = 'Compare the total cost of brewing at home across four archetypes: pods, bean-to-cup, bulk brew, and manual espresso. See when bulk brewing overtakes pods and how fewer shop visits add up.',
 } = Astro.props;
 ---
 
@@ -22,8 +21,7 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/illustrations/favicon.png" />
     <link
       rel="stylesheet"
       href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&display=swap"
@@ -39,7 +37,6 @@ const {
     <title>{title}</title>
   </head>
   <body class="flex min-h-dvh flex-col">
-    <Header />
     <main class="flex-1">
       <slot />
     </main>
