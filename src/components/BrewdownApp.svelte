@@ -16,9 +16,11 @@
   } from '../lib/brewing-cost';
   import { cardClasses, advancedOptionsFieldClasses, advancedOptionsToggleClasses, fieldClasses } from '../lib/svelte-ux-classes';
   import { validateFullCalculator } from '../lib/validation';
+  import { buildMethodResults } from '../lib/insights';
   import CostChart from './CostChart.svelte';
   import GlobalInputs from './GlobalInputs.svelte';
   import MethodPanel from './MethodPanel.svelte';
+  import MobileChartBar from './MobileChartBar.svelte';
   import SummaryCards from './SummaryCards.svelte';
 
   const DEBOUNCE_MS = 300;
@@ -51,6 +53,8 @@
   let isUpdating = $state(false);
   let openPanels = $state<Partial<Record<MethodId, boolean>>>({});
   let showAdvancedOptions = $state(false);
+  let chartSectionEl = $state<HTMLElement | null>(null);
+  let chartInView = $state(false);
 
   const liveValidation = $derived(
     validateFullCalculator({
@@ -72,6 +76,12 @@
 
   const selectedMethods = $derived(
     selectedMethodIds.slice().sort((a, b) => a.localeCompare(b)),
+  );
+
+  const methodResults = $derived(buildMethodResults(selectedMethods, committedInputs));
+
+  const showMobileBar = $derived(
+    committedValidation.valid && selectedMethods.length >= 2 && !chartInView,
   );
 
   $effect(() => {
@@ -114,7 +124,12 @@
   }
 </script>
 
-<section class="mx-auto max-w-container px-[var(--gutter)] pb-16">
+<section
+  class={[
+    'mx-auto max-w-container px-[var(--gutter)] lg:pb-16',
+    showMobileBar ? 'pb-24' : 'pb-16',
+  ]}
+>
   <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start">
     <Card classes={cardClasses} class="min-w-0">
       {#snippet contents()}
@@ -233,7 +248,9 @@
             Adjust the inputs on the left. Results update automatically once values are valid.
           </p>
         {:else}
-          <CostChart selectedMethodIds={selectedMethods} inputs={committedInputs} />
+          <div id="brewdown-chart" bind:this={chartSectionEl}>
+            <CostChart selectedMethodIds={selectedMethods} inputs={committedInputs} />
+          </div>
 
           <SummaryCards selectedMethodIds={selectedMethods} inputs={committedInputs} />
         {/if}
@@ -241,4 +258,11 @@
       {/snippet}
     </Card>
   </div>
+
+  <MobileChartBar
+    results={methodResults}
+    chartEl={chartSectionEl}
+    enabled={committedValidation.valid && selectedMethods.length >= 2}
+    bind:chartInView
+  />
 </section>

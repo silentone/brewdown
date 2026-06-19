@@ -106,6 +106,7 @@ export const METHOD_GROUPS: MethodGroup[] = [
 export interface MethodDefinition {
   id: MethodId;
   label: string;
+  shortLabel: string;
   category: MethodCategory;
   ingredientModel: IngredientModel;
   defaultGramsPerCup: number;
@@ -119,6 +120,7 @@ export const METHODS: Record<MethodId, MethodDefinition> = {
   pods: {
     id: 'pods',
     label: 'Pre-packaged pods',
+    shortLabel: 'Pods',
     category: 'one_touch',
     ingredientModel: 'pods',
     defaultGramsPerCup: 0,
@@ -130,6 +132,7 @@ export const METHODS: Record<MethodId, MethodDefinition> = {
   bean_to_cup: {
     id: 'bean_to_cup',
     label: 'Bean-to-cup (super-automatic)',
+    shortLabel: 'B-to-Cup',
     category: 'one_touch',
     ingredientModel: 'bulk',
     defaultGramsPerCup: 9,
@@ -141,6 +144,7 @@ export const METHODS: Record<MethodId, MethodDefinition> = {
   bulk_brew: {
     id: 'bulk_brew',
     label: 'Drip, press, or pour-over',
+    shortLabel: 'Bulk brew',
     category: 'bulk',
     ingredientModel: 'bulk',
     defaultGramsPerCup: 15,
@@ -152,6 +156,7 @@ export const METHODS: Record<MethodId, MethodDefinition> = {
   manual_espresso: {
     id: 'manual_espresso',
     label: 'Manual espresso',
+    shortLabel: 'Espresso',
     category: 'espresso',
     ingredientModel: 'bulk',
     defaultGramsPerCup: 9,
