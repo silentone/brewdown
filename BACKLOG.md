@@ -59,7 +59,7 @@ Use these as the reference when drafting regional defaults. Shop drink **counts*
 | Input | Source | USD default |
 |-------|--------|-------------|
 | Coffee drinks at home per day | `brewing-cost.ts` | `2` |
-| Average shop drink price | `brewing-cost.ts` | `$5.00` |
+| Average coffee shop drink price | `brewing-cost.ts` | `$5.00` |
 | Bean-to-cup machine | `methods.ts` | `$800` |
 | Bean-to-cup coffee | `methods.ts` | `$12/lb` |
 | Bulk brew (drip preset) machine | `BULK_GEAR_PRESETS.drip` | `$45` |

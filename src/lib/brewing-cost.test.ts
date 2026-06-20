@@ -88,7 +88,7 @@ describe('methods config', () => {
     expect(bean.shopDrinks).toBe(1);
   });
 
-  it('assigns lower default shop drinks to bean-to-cup than pods (hook 2)', () => {
+  it('assigns lower default coffee shop drinks to bean-to-cup than pods (hook 2)', () => {
     expect(METHODS.bean_to_cup.defaultShopDrinksPerMonth).toBeLessThan(
       METHODS.pods.defaultShopDrinksPerMonth,
     );
@@ -119,7 +119,7 @@ describe('ingredient and shop daily costs', () => {
     );
   });
 
-  it('converts monthly shop drinks to daily cost', () => {
+  it('converts monthly coffee shop drinks to daily cost', () => {
     const inputs = defaultInputs();
     inputs.methodInputs.pods.shopPeriod = 'month';
     inputs.methodInputs.pods.shopDrinks = 12;
@@ -128,7 +128,7 @@ describe('ingredient and shop daily costs', () => {
     expect(shopCostPerDay('pods', inputs)).toBeCloseTo(expected, 5);
   });
 
-  it('converts weekly shop drinks to daily cost', () => {
+  it('converts weekly coffee shop drinks to daily cost', () => {
     const inputs = defaultInputs();
     inputs.methodInputs.pods.shopPeriod = 'week';
     inputs.methodInputs.pods.shopDrinks = 3;

@@ -30,7 +30,7 @@ describe('insights', () => {
     expect(copy).toContain('Bean-to-cup');
     expect(copy).toContain('pays for its higher machine cost');
     expect(copy).toContain('per year in ongoing costs');
-    expect(copy).toContain('fewer shop drinks per month');
+    expect(copy).toContain('fewer coffee shop drinks per month');
     expect(copy).not.toContain('5-year');
   });
 
@@ -75,7 +75,7 @@ describe('insights', () => {
     expect(copy).toContain('Pre-packaged pods');
     expect(copy).toContain('costs about');
     expect(copy).toContain('per year in ongoing');
-    expect(copy).toContain('on shop drinks');
+    expect(copy).toContain('on coffee shop drinks');
     expect(copy).not.toContain('Switching from');
     expect(copy).not.toContain('5-year');
   });

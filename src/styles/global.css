@@ -64,6 +64,38 @@
     @apply pointer-events-none opacity-0 translate-y-1;
   }
 
+  @media (max-width: 1023px) {
+    .advanced-options-field {
+      display: grid;
+      grid-template-rows: 1fr;
+      transition:
+        grid-template-rows 200ms ease-out,
+        opacity 200ms ease-out;
+    }
+
+    .advanced-options-field__inner {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .advanced-options-field--hidden {
+      grid-template-rows: 0fr;
+      translate: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .advanced-options-field {
+      display: block;
+      grid-template-rows: none;
+    }
+
+    .advanced-options-field__inner {
+      min-height: auto;
+      overflow: visible;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .advanced-options-field {
       @apply transition-none;
@@ -71,6 +103,12 @@
 
     .advanced-options-field--hidden {
       @apply translate-y-0;
+    }
+
+    @media (max-width: 1023px) {
+      .advanced-options-field {
+        transition: none;
+      }
     }
   }
 

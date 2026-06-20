@@ -144,9 +144,9 @@
       />
     </div>
 
-    <div class="grid gap-4 sm:grid-cols-2">
+    <div class={['grid gap-4 sm:grid-cols-2', !showAdvancedOptions && 'max-lg:grid-cols-1 max-lg:gap-y-0']}>
       <NumericField
-        label="Shop drinks"
+        label="Drinks purchased at coffee shops"
         value={values.shopDrinks}
         onchange={(shopDrinks) => patch({ shopDrinks })}
         hint="Better home setups often mean fewer shop visits. Adjust if needed."
@@ -176,14 +176,16 @@
           aria-hidden={!showAdvancedOptions}
           inert={!showAdvancedOptions}
         >
-          <NumericField
-            label="Grams per cup"
-            value={values.gramsPerCup}
-            onchange={(gramsPerCup) => patch({ gramsPerCup })}
-            hint="Typical range: 12 to 18g for most 8oz brews."
-            disabled={!showAdvancedOptions}
-            classes={fieldClasses}
-          />
+          <div class={advancedOptionsFieldClasses.inner}>
+            <NumericField
+              label="Grams per cup"
+              value={values.gramsPerCup}
+              onchange={(gramsPerCup) => patch({ gramsPerCup })}
+              hint="Typical range: 12 to 18g for most 8oz brews."
+              disabled={!showAdvancedOptions}
+              classes={fieldClasses}
+            />
+          </div>
         </div>
       {:else if method.fieldVisibility.includes('podsPerCup')}
         <div
@@ -191,13 +193,15 @@
           aria-hidden={!showAdvancedOptions}
           inert={!showAdvancedOptions}
         >
-          <NumericField
-            label="Pods per cup"
-            value={values.podsPerCup}
-            onchange={(podsPerCup) => patch({ podsPerCup })}
-            disabled={!showAdvancedOptions}
-            classes={fieldClasses}
-          />
+          <div class={advancedOptionsFieldClasses.inner}>
+            <NumericField
+              label="Pods per cup"
+              value={values.podsPerCup}
+              onchange={(podsPerCup) => patch({ podsPerCup })}
+              disabled={!showAdvancedOptions}
+              classes={fieldClasses}
+            />
+          </div>
         </div>
       {/if}
     </div>

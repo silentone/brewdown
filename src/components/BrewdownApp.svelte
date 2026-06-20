@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { mdiChevronDown } from '@mdi/js';
-  import { Card, Icon } from 'svelte-ux';
+  import { Card, Switch } from 'svelte-ux';
   import {
     DEFAULT_SELECTED_METHODS,
     METHOD_GROUPS,
@@ -13,7 +12,7 @@
     type CalculatorInputs,
     createDefaultCalculatorInputs,
   } from '../lib/brewing-cost';
-  import { cardClasses, advancedOptionsToggleClasses } from '../lib/svelte-ux-classes';
+  import { cardClasses, moreOptionsSwitchClasses } from '../lib/svelte-ux-classes';
   import { validateFullCalculator } from '../lib/validation';
   import { buildMethodResults } from '../lib/insights';
   import CostChart from './CostChart.svelte';
@@ -176,21 +175,6 @@
           </div>
         </div>
 
-        <button
-          type="button"
-          class={advancedOptionsToggleClasses.button}
-          aria-expanded={showAdvancedOptions}
-          onclick={() => (showAdvancedOptions = !showAdvancedOptions)}
-        >
-          <span class={advancedOptionsToggleClasses.label}>Advanced options</span>
-          <div
-            data-open={showAdvancedOptions}
-            class={advancedOptionsToggleClasses.icon}
-          >
-            <Icon data={mdiChevronDown} />
-          </div>
-        </button>
-
         <GlobalInputs
           bind:cupsPerDay
           bind:pricePerShopDrink
@@ -199,9 +183,22 @@
         />
 
         <div>
-          <p class="mb-3 font-mono text-xs uppercase tracking-wide text-ink-3">
-            Per-method settings
-          </p>
+          <div class="mb-3 flex items-center justify-between gap-3">
+            <p class="font-mono text-xs uppercase tracking-wide text-ink-3">
+              Per-method settings
+            </p>
+            <div class="flex shrink-0 items-center gap-2">
+              <label for="more-options-switch" class="cursor-pointer text-xs text-ink-3">
+                More options
+              </label>
+              <Switch
+                id="more-options-switch"
+                bind:checked={showAdvancedOptions}
+                size="sm"
+                classes={moreOptionsSwitchClasses}
+              />
+            </div>
+          </div>
           <div class="space-y-3">
             {#each selectedMethods as methodId (methodId)}
               <MethodPanel

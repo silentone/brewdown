@@ -109,7 +109,7 @@
   >
     <button
       type="button"
-      class="flex w-full items-center justify-between gap-3 rounded-xl border border-[var(--line-strong)] bg-paper/90 px-4 py-3 text-left shadow-md backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20"
+      class="flex w-full items-center justify-between gap-3 rounded-xl border border-brand/25 border-t border-brand/20 bg-brand-soft px-4 py-3 text-left shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20"
       aria-label={ariaLabel}
       onclick={handleBarClick}
     >
@@ -118,9 +118,9 @@
           See recommendations
         </span>
         <span
-          class="flex shrink-0 items-center gap-1.5 font-mono text-xs uppercase tracking-wide text-ink-2"
+          class="flex shrink-0 items-center gap-1.5 rounded-full border border-brand/30 bg-white/80 px-2.5 py-1 font-mono text-xs uppercase tracking-wide text-brand-deep"
         >
-          <Icon data={mdiChevronDown} class="size-4" />
+          <Icon data={mdiChevronDown} class="size-4 text-brand" />
           View picks
         </span>
       {:else}
@@ -134,9 +134,9 @@
           {/each}
         </span>
         <span
-          class="flex shrink-0 items-center gap-1.5 font-mono text-xs uppercase tracking-wide text-ink-2"
+          class="flex shrink-0 items-center gap-1.5 rounded-full border border-brand/30 bg-white/80 px-2.5 py-1 font-mono text-xs uppercase tracking-wide text-brand-deep"
         >
-          <Icon data={mdiChartLine} class="size-4" />
+          <Icon data={mdiChartLine} class="size-4 text-brand" />
           View chart
         </span>
       {/if}

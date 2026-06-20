@@ -59,7 +59,7 @@ export function validateMethodInputValues(
   }
 
   if (!validateNonNegative(values.shopDrinks)) {
-    errors.push(`${label}: Shop drinks must be zero or greater.`);
+    errors.push(`${label}: Drinks purchased at coffee shops must be zero or greater.`);
   }
 
   if (methodId === 'pods') {

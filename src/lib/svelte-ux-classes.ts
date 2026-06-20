@@ -36,15 +36,14 @@ export const collapseClasses = {
   icon: 'text-ink-3',
 } as const;
 
-export const advancedOptionsToggleClasses = {
-  button:
-    'flex w-full items-center border-t border-[var(--line)] pt-3 text-left focus:outline-none',
-  label: 'flex-1 text-sm text-ink-2',
-  icon: 'text-ink-3 transition-transform duration-200 ease-out motion-reduce:transition-none data-[open=true]:-rotate-180',
+export const moreOptionsSwitchClasses = {
+  switch: 'border-[var(--line)]',
+  toggle: 'bg-white',
 } as const;
 
 export const advancedOptionsFieldClasses = {
   root: 'advanced-options-field',
+  inner: 'advanced-options-field__inner',
   hidden: 'advanced-options-field--hidden',
 } as const;
 

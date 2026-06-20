@@ -16,7 +16,7 @@
 
 **Hook 1 — lines cross:** On the chart, cumulative cost lines **cross**. Pre-packaged pods often start cheaper (low machine cost) but climb faster (high per-cup cost), while bulk methods like bean-to-cup start higher (machine purchased upfront) but overtake pods as daily home-brew savings accumulate.
 
-**Hook 2 — fewer café visits:** Better home coffee means **fewer coffee shop drinks**. Each comparison method carries its own expected café frequency — upgrading from pods to bean-to-cup isn’t just cheaper per cup at home; it also **replaces shop visits**, steepening savings. Defaults reflect this (e.g. bean-to-cup: 4 shop drinks/month vs pods: 12/month).
+**Hook 2 — fewer café visits:** Better home coffee means **fewer coffee shop drinks**. Each comparison method carries its own expected café frequency — upgrading from pods to bean-to-cup isn’t just cheaper per cup at home; it also **replaces shop visits**, steepening savings. Defaults reflect this (e.g. bean-to-cup: 4 coffee shop drinks/month vs pods: 12/month).
 
 ### 1.2 Target audience
 
@@ -89,7 +89,7 @@ flowchart LR
 | ID | Display name | Group | Ingredient model | Notes |
 |----|--------------|-------|------------------|-------|
 | `pods` | Pre-packaged pods | One-touch convenience | Per pod/capsule | Pod style preset (K-Cup / Nespresso) prefills machine and pod cost |
-| `bean_to_cup` | Bean-to-cup (super-automatic) | One-touch convenience | Bulk (grams/lb) | Higher machine cost; lower per-cup ingredient cost; **fewest default shop drinks** |
+| `bean_to_cup` | Bean-to-cup (super-automatic) | One-touch convenience | Bulk (grams/lb) | Higher machine cost; lower per-cup ingredient cost; **fewest default coffee shop drinks** |
 | `bulk_brew` | Drip, press, or pour-over | Bulk home brewing | Bulk (grams/lb) | Gear preset (drip / French press / pour-over) prefills machine, ingredient, and shop defaults |
 | `manual_espresso` | Manual espresso | Espresso | Bulk (grams/lb) | Espresso machine + grinder (machine cost may include grinder); ~18g per double shot |
 
@@ -101,9 +101,9 @@ flowchart LR
 
 **Manual espresso note:** “Cups per day” for espresso drinkers may mean shots/drinks; grams-per-cup default reflects a typical double shot (~18g). Copy should say “drinks” where helpful without forcing a separate input in v1.
 
-**Coffee shop spend — per method, not global:** There is no standalone `coffee_shop` comparison method. Every home method includes **coffee shop drinks per week or per month** representing residual café visits *in addition to* home `cups_per_day`. Better methods default to fewer shop drinks. **Brewing cost** for each line = upfront machine + home ongoing + **that method’s** shop ongoing.
+**Coffee shop spend — per method, not global:** There is no standalone `coffee_shop` comparison method. Every home method includes **coffee shop drinks per week or per month** representing residual café visits *in addition to* home `cups_per_day`. Better methods default to fewer coffee shop drinks. **Brewing cost** for each line = upfront machine + home ongoing + **that method’s** shop ongoing.
 
-**Optional café-only baseline (v1):** A preset or toggle *“Café only (no home brewing)”* may add a comparison line with `machine_cost = 0`, home `cups_per_day` treated as 0, and shop drinks derived from total consumption (see §5.4). Not a separate method ID in the config.
+**Optional café-only baseline (v1):** A preset or toggle *“Café only (no home brewing)”* may add a comparison line with `machine_cost = 0`, home `cups_per_day` treated as 0, and coffee shop drinks derived from total consumption (see §5.4). Not a separate method ID in the config.
 
 ### 4.2 What brewing cost includes (v1)
 
@@ -112,11 +112,11 @@ For each home brewing method:
 | Cost component | Included in v1? | Notes |
 |----------------|-----------------|-------|
 | Coffee ingredients (beans/grounds/pods/capsules) | **Yes** | Home brewing; accrues daily; drives part of line **slope** |
-| Coffee shop drinks | **Yes** | **Per method** — accrues daily; drives remaining slope; defaults lower on better home methods |
+| Coffee coffee shop drinks | **Yes** | **Per method** — accrues daily; drives remaining slope; defaults lower on better home methods |
 | Machine upfront cost | **Yes** | **One-time lump sum at year 0** — not amortized; sets the line **starting point** |
 | Filters, descaling, misc consumables | **Optional / TBD** | Accrue daily or annually (converted to daily); add to slope |
 | Electricity / water | **No** | Exclude in v1 unless owner requests |
-| Milk, syrups, tips (shop drinks) | **TBD** | Base drink price only (global), or add-on field later |
+| Milk, syrups, tips (coffee shop drinks) | **TBD** | Base drink price only (global), or add-on field later |
 | Labor / time | **No** | Not monetized |
 
 **Design intent:** No machine amortization. A $800 bean-to-cup machine adds **$800 on day one**, not spread across years. The chart shows when cumulative savings (home **and** reduced café spend) outweigh that upfront gap — the **crossover** is hook 1. Hook 2 is visible in the breakdown: bean-to-cup’s shop spend line item is much smaller than pods’.
@@ -222,24 +222,24 @@ Each selected method exposes a **collapsible section** or column with method-spe
 | Input | Applies to | Type | Default (proposed) | Notes |
 |-------|------------|------|-------------------|-------|
 | Pod style (defaults only) | `pods` | Toggle | `kcup` | `kcup` or `nespresso` — prefills cost per pod & machine cost; user can override |
-| Gear preset (defaults only) | `bulk_brew` | Toggle | `drip` | `drip`, `french_press`, or `pour_over` — prefills machine, ingredient, shop drinks, and consumables |
+| Gear preset (defaults only) | `bulk_brew` | Toggle | `drip` | `drip`, `french_press`, or `pour_over` — prefills machine, ingredient, coffee shop drinks, and consumables |
 | Grams of coffee per cup | Bulk methods (`bulk_brew`, `manual_espresso`, `bean_to_cup`) | Number | Method-specific (e.g. 15g; 18g for espresso) | Link to “typical range” hint |
 | Cost of coffee ingredients | All home methods | Currency | Method-specific | Bulk: $/lb beans; `pods`: $/pod or $/capsule |
 | Machine cost | All home methods | Currency | Method-specific | One-time purchase at t=0; manual espresso may bundle grinder into this field in v1 |
-| Coffee shop drinks | **Each method** | Number | Method-specific (see §5.4) | Uses global period toggle (week/month); **key hook 2 input** |
+| Coffee coffee shop drinks | **Each method** | Number | Method-specific (see §5.4) | Uses global period toggle (week/month); **key hook 2 input** |
 | Pods/capsules per cup | `pods` | Number | `1` | |
 | Annual consumables | Optional | Currency/year | `0` or method default | Drip filters, pour-over papers, descaling; converted to daily in formula |
 
-**UX note:** When the user changes shop drinks on one method, show helper copy: *“Better home setups often mean fewer café trips. Adjust if needed.”* Optionally link “apply suggested defaults” per method tier.
+**UX note:** When the user changes coffee shop drinks on one method, show helper copy: *“Better home setups often mean fewer café trips. Adjust if needed.”* Optionally link “apply suggested defaults” per method tier.
 
 ### 5.4 Default value philosophy
 
 - Defaults should tell a **credible crossover story** (hook 1): pod line starts lower (cheap machine) but bean-to-cup crosses below during the comparison period.
-- Defaults should tell a **credible café-reduction story** (hook 2): methods that produce better home coffee assume **fewer shop drinks**.
+- Defaults should tell a **credible café-reduction story** (hook 2): methods that produce better home coffee assume **fewer coffee shop drinks**.
 
-**Proposed default shop drinks (per month):**
+**Proposed default coffee shop drinks (per month):**
 
-| Method / preset | Shop drinks/month | Rationale |
+| Method / preset | Coffee coffee shop drinks/month | Rationale |
 |-----------------|-------------------|-----------|
 | `pods` (K-Cup or Nespresso) | 12 | Convenient but uninspiring; still hit the café often |
 | `bulk_brew` — drip | 8 | Decent weekday coffee; occasional café treat |
@@ -527,7 +527,7 @@ Use **`client:load`** on `BrewdownApp` so inputs and chart are interactive immed
 
 ### 9.3 Data architecture
 
-- **Method definitions** in `src/data/methods.ts` (or JSON imported at build time): id, label, default grams, default machine cost, default ingredient cost, **default shop drinks**, field visibility
+- **Method definitions** in `src/data/methods.ts` (or JSON imported at build time): id, label, default grams, default machine cost, default ingredient cost, **default coffee shop drinks**, field visibility
 - **No API** — all defaults ship with the static bundle at build time
 - **No localStorage** required in v1; optional “remember my inputs” later
 
@@ -610,7 +610,7 @@ Please answer these to finalize the spec:
 
 1. ~~**Custom brew methods**~~ — **Resolved.** v1 methods: `pods`, `bean_to_cup`, `bulk_brew`, `manual_espresso`. Drip, French press, and pour-over are gear presets on `bulk_brew`; K-Cup and Nespresso are pod style presets on `pods`.
 2. ~~**Brewing cost model**~~ — **Resolved.** Machine cost upfront at t=0; no amortization; chart crossover is hook 1. User-facing term: **total cost of brewing at home**.
-3. ~~**Coffee shop modeling**~~ — **Resolved.** Shop drinks are **per comparison method** (week/month); global `price_per_drink`; optional café-only baseline checkbox. No standalone `coffee_shop` method.
+3. ~~**Coffee shop modeling**~~ — **Resolved.** Coffee coffee shop drinks are **per comparison method** (week/month); global `price_per_drink`; optional café-only baseline checkbox. No standalone `coffee_shop` method.
 4. ~~**Stack & hosting**~~ — **Resolved.** Astro 5 with Svelte client islands; Tailwind CSS; Svelte UX + LayerChart; static output; deploy to Vercel.
 5. ~~**Analytics**~~ — **Resolved.** Vercel Web Analytics on Hobby (free); `@vercel/analytics` in site layout; no custom events in v1.
 6. ~~**Visual direction**~~ — **Resolved.** FoxDoo-inspired warm editorial layout; illustrated accents per app-icon style; tokens in `design/tokens.css`.
@@ -631,7 +631,7 @@ Please answer these to finalize the spec:
 - [ ] Home-brew lines start at machine upfront cost at year 0 (not amortized)
 - [ ] Changing cups/day and ingredient costs updates brewing cost correctly in the browser
 - [ ] Default `pods` vs `bean_to_cup` scenario shows lines **crossing** on the chart (hook 1; crossover ~year 2–3 in default scenario)
-- [ ] Each method has editable shop drinks (week/month); defaults show bean-to-cup **lower** than pods (hook 2)
+- [ ] Each method has editable coffee shop drinks (week/month); defaults show bean-to-cup **lower** than pods (hook 2)
 - [ ] Summary breakdown separates **home** vs **shop** spend per method
 - [ ] Crossover year/month is labeled on the chart when applicable
 - [ ] Referral blocks show **machine-only** links, grouped by brewing method (3 links per group), cheapest method first; no links for pod-style brewing; affiliate disclosure visible; no display ads
@@ -655,16 +655,16 @@ Please answer these to finalize the spec:
 | Ingredient cost | $0.65 / pod | $12 / lb beans |
 | Pods or grams per cup | 1 pod | 15g |
 | Machine cost | $120 | $800 |
-| Shop drinks/month | 12 | 4 |
+| Coffee coffee shop drinks/month | 12 | 4 |
 | Price per shop drink (global) | $5.00 | $5.00 |
 
 **Expected narrative (hook 1):** At year 0, bean-to-cup brewing cost starts at **$800** vs pods at **$120**. Bean-to-cup has a flatter slope (cheaper home coffee). Lines **cross** around year 2–3.
 
-**Expected narrative (hook 2):** Bean-to-cup assumes **8 fewer shop drinks/month** than pods → **$40/month** less café spend → **$2,400** less shop spend over the 60-month comparison, on top of home-brew savings. Copy and breakdown table make this visible.
+**Expected narrative (hook 2):** Bean-to-cup assumes **8 fewer coffee shop drinks/month** than pods → **$40/month** less café spend → **$2,400** less shop spend over the 60-month comparison, on top of home-brew savings. Copy and breakdown table make this visible.
 
 ### Appendix B — Method ingredient model (quick reference)
 
-| Method | Cost input unit | Machine? | Default shop drinks/mo |
+| Method | Cost input unit | Machine? | Default coffee shop drinks/mo |
 |--------|-----------------|----------|------------------------|
 | `pods` | $/pod or $/capsule | Yes | 12 |
 | `bean_to_cup` | $/lb | Yes (highest) | 4 |

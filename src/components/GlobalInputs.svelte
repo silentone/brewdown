@@ -18,7 +18,7 @@
 </script>
 
 <div class="space-y-5">
-  <div class="grid gap-4 sm:grid-cols-2">
+  <div class={['grid gap-4 sm:grid-cols-2', !showAdvancedOptions && 'max-lg:grid-cols-1']}>
     <NumericField
       label="Coffee drinks at home per day"
       bind:value={cupsPerDay}
@@ -29,13 +29,15 @@
       aria-hidden={!showAdvancedOptions}
       inert={!showAdvancedOptions}
     >
-      <NumericField
-        label="Average shop drink price"
-        currency
-        bind:value={pricePerShopDrink}
-        disabled={!showAdvancedOptions}
-        classes={fieldClasses}
-      />
+      <div class={advancedOptionsFieldClasses.inner}>
+        <NumericField
+          label="Average shop drink price"
+          currency
+          bind:value={pricePerShopDrink}
+          disabled={!showAdvancedOptions}
+          classes={fieldClasses}
+        />
+      </div>
     </div>
   </div>
 

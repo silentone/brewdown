@@ -224,7 +224,7 @@ export function heroInsightCopy(insight: HeroInsight): string {
     const annual = formatUsd(insight.annualOngoingCost);
     const shop = formatUsd(insight.annualShopSavings);
 
-    return `${insight.cheapest.label} costs about ${annual} per year in ongoing home and shop spending, including ${shop} on shop drinks.`;
+    return `${insight.cheapest.label} costs about ${annual} per year in ongoing home and shop spending, including ${shop} on coffee shop drinks.`;
   }
 
   if (insight.variant === 'crossover' && insight.crossover) {
@@ -233,7 +233,7 @@ export function heroInsightCopy(insight: HeroInsight): string {
     const savings = formatUsd(crossover.annualOngoingSavings);
     const shopNote =
       crossover.fewerShopDrinksPerMonth > 0
-        ? `, and you would buy about ${Math.round(crossover.fewerShopDrinksPerMonth)} fewer shop drinks per month`
+        ? `, and you would buy about ${Math.round(crossover.fewerShopDrinksPerMonth)} fewer coffee shop drinks per month`
         : '';
 
     return `${crossover.longTermCheaperLabel} pays for its higher machine cost after ${yearLabel}, then saves ${savings} per year in ongoing costs${shopNote}.`;
@@ -242,5 +242,5 @@ export function heroInsightCopy(insight: HeroInsight): string {
   const annual = formatUsd(insight.annualSavings);
   const shop = formatUsd(insight.annualShopSavings);
 
-  return `Switching from ${insight.mostExpensive.label} to ${insight.cheapest.label} saves about ${annual} per year in ongoing costs, including ${shop} less on shop drinks.`;
+  return `Switching from ${insight.mostExpensive.label} to ${insight.cheapest.label} saves about ${annual} per year in ongoing costs, including ${shop} less on coffee shop drinks.`;
 }
