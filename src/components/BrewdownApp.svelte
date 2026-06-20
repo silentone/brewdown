@@ -1,7 +1,6 @@
 <script lang="ts">
   import { mdiChevronDown } from '@mdi/js';
   import { Card, Icon } from 'svelte-ux';
-  import NumericField from './NumericField.svelte';
   import {
     DEFAULT_SELECTED_METHODS,
     METHOD_GROUPS,
@@ -14,7 +13,7 @@
     type CalculatorInputs,
     createDefaultCalculatorInputs,
   } from '../lib/brewing-cost';
-  import { cardClasses, advancedOptionsFieldClasses, advancedOptionsToggleClasses, fieldClasses } from '../lib/svelte-ux-classes';
+  import { cardClasses, advancedOptionsToggleClasses } from '../lib/svelte-ux-classes';
   import { validateFullCalculator } from '../lib/validation';
   import { buildMethodResults } from '../lib/insights';
   import CostChart from './CostChart.svelte';
@@ -145,11 +144,6 @@
           Inputs · Compare methods
         </p>
 
-        <GlobalInputs
-          bind:cupsPerDay
-          errors={liveValidation.errors}
-        />
-
         <div>
           <p class="mb-1 text-sm font-medium text-ink-2">Methods to compare</p>
           {#if selectedMethodIds.length === 0}
@@ -197,6 +191,13 @@
           </div>
         </button>
 
+        <GlobalInputs
+          bind:cupsPerDay
+          bind:pricePerShopDrink
+          {showAdvancedOptions}
+          errors={liveValidation.errors}
+        />
+
         <div>
           <p class="mb-3 font-mono text-xs uppercase tracking-wide text-ink-3">
             Per-method settings
@@ -212,22 +213,6 @@
                 {showAdvancedOptions}
               />
             {/each}
-          </div>
-        </div>
-
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div
-            class={[advancedOptionsFieldClasses.root, !showAdvancedOptions && advancedOptionsFieldClasses.hidden]}
-            aria-hidden={!showAdvancedOptions}
-            inert={!showAdvancedOptions}
-          >
-            <NumericField
-              label="Average shop drink price"
-              currency
-              bind:value={pricePerShopDrink}
-              disabled={!showAdvancedOptions}
-              classes={fieldClasses}
-            />
           </div>
         </div>
         </div>
