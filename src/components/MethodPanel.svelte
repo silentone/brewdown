@@ -181,7 +181,7 @@
               label="Grams per cup"
               value={values.gramsPerCup}
               onchange={(gramsPerCup) => patch({ gramsPerCup })}
-              hint="Typical range: 12 to 18g for most 8oz brews."
+              hint="Typical range: 10 - 20g for most 6oz brews."
               disabled={!showAdvancedOptions}
               classes={fieldClasses}
             />

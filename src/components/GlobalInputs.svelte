@@ -31,7 +31,7 @@
     >
       <div class={advancedOptionsFieldClasses.inner}>
         <NumericField
-          label="Average shop drink price"
+          label="Average coffee shop drink price"
           currency
           bind:value={pricePerShopDrink}
           disabled={!showAdvancedOptions}
