@@ -42,21 +42,21 @@ export interface PodStylePresetDefinition {
 export const BULK_GEAR_PRESETS: Record<BulkGearPreset, BulkGearPresetDefinition> = {
   drip: {
     label: 'Drip',
-    defaultMachineCost: 45,
+    defaultMachineCost: 120,
     defaultIngredientCost: 15.75,
     defaultGramsPerCup: 10,
     defaultShopDrinksPerMonth: 8,
   },
   french_press: {
     label: 'French press',
-    defaultMachineCost: 28,
+    defaultMachineCost: 30,
     defaultIngredientCost: 15.75,
     defaultGramsPerCup: 12,
     defaultShopDrinksPerMonth: 8,
   },
   pour_over: {
     label: 'Pour-over',
-    defaultMachineCost: 55,
+    defaultMachineCost: 40,
     defaultIngredientCost: 15.75,
     defaultGramsPerCup: 11,
     defaultShopDrinksPerMonth: 8,

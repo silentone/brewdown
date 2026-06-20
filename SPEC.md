@@ -2,7 +2,7 @@
 
 **Version:** 0.8 (draft)  
 **Status:** Stack, analytics, and visual direction (FoxDoo-inspired) confirmed; other items in §12 still open  
-**Last updated:** 2026-06-15
+**Last updated:** 2026-06-20
 
 ---
 
@@ -91,7 +91,7 @@ flowchart LR
 | `pods` | Pre-packaged pods | One-touch convenience | Per pod/capsule | Pod style preset (K-Cup / Nespresso) prefills machine and pod cost |
 | `bean_to_cup` | Bean-to-cup (super-automatic) | One-touch convenience | Bulk (grams/lb) | Higher machine cost; lower per-cup ingredient cost; **fewest default coffee shop drinks** |
 | `bulk_brew` | Drip, press, or pour-over | Bulk home brewing | Bulk (grams/lb) | Gear preset (drip / French press / pour-over) prefills machine, ingredient, and shop defaults |
-| `manual_espresso` | Manual espresso | Espresso | Bulk (grams/lb) | Espresso machine + grinder (machine cost may include grinder); ~18g per double shot |
+| `manual_espresso` | Manual espresso | Espresso | Bulk (grams/lb) | Espresso machine + grinder (machine cost may include grinder); see §5.3 for shot and milk-drink ratios |
 
 **Pod method (`pods`) detail:** K-Cup and Nespresso are not separate comparison lines. One `pods` method covers both; the user selects a **pod style preset** (K-Cup or Nespresso) to populate defaults, then can override cost per pod/capsule and machine cost.
 
@@ -99,7 +99,7 @@ flowchart LR
 
 **Method selector groups:** One-touch convenience (`pods`, `bean_to_cup`), Bulk home brewing (`bulk_brew`), Espresso (`manual_espresso`).
 
-**Manual espresso note:** “Cups per day” for espresso drinkers may mean shots/drinks; grams-per-cup default reflects a typical double shot (~18g). Copy should say “drinks” where helpful without forcing a separate input in v1.
+**Manual espresso note:** “Cups per day” for espresso drinkers may mean shots or milk drinks. Default grams-per-cup reflects a **1 oz espresso shot** (10g; see §5.3). Copy should say “drinks” where helpful; UI hints should note cappuccino-style drinks use more coffee per serving.
 
 **Coffee shop spend — per method, not global:** There is no standalone `coffee_shop` comparison method. Every home method includes **coffee shop drinks per week or per month** representing residual café visits *in addition to* home `cups_per_day`. Better methods default to fewer coffee shop drinks. **Brewing cost** for each line = upfront machine + home ongoing + **that method’s** shop ongoing.
 
@@ -223,7 +223,7 @@ Each selected method exposes a **collapsible section** or column with method-spe
 |-------|------------|------|-------------------|-------|
 | Pod style (defaults only) | `pods` | Toggle | `kcup` | `kcup` or `nespresso` — prefills cost per pod & machine cost; user can override |
 | Gear preset (defaults only) | `bulk_brew` | Toggle | `drip` | `drip`, `french_press`, or `pour_over` — prefills machine, ingredient, coffee shop drinks, and consumables |
-| Grams of coffee per cup | Bulk methods (`bulk_brew`, `manual_espresso`, `bean_to_cup`) | Number | Method-specific (e.g. 15g; 18g for espresso) | Link to “typical range” hint |
+| Grams of coffee per cup | Bulk methods (`bulk_brew`, `manual_espresso`, `bean_to_cup`) | Number | Method-specific (see §5.3) | Link to “typical range” hint from §5.3 |
 | Cost of coffee ingredients | All home methods | Currency | Method-specific | Bulk: $/lb beans; `pods`: $/pod or $/capsule |
 | Machine cost | All home methods | Currency | Method-specific | One-time purchase at t=0; manual espresso may bundle grinder into this field in v1 |
 | Coffee coffee shop drinks | **Each method** | Number | Method-specific (see §5.4) | Uses global period toggle (week/month); **key hook 2 input** |
@@ -231,6 +231,26 @@ Each selected method exposes a **collapsible section** or column with method-spe
 | Annual consumables | Optional | Currency/year | `0` or method default | Drip filters, pour-over papers, descaling; converted to daily in formula |
 
 **UX note:** When the user changes coffee shop drinks on one method, show helper copy: *“Better home setups often mean fewer café trips. Adjust if needed.”* Optionally link “apply suggested defaults” per method tier.
+
+### 5.3 Default brewing ratios (grams per serving)
+
+These ratios define **default grams-per-cup** and **typical-range hints** for bulk and espresso methods. Serving sizes use **fluid ounces** (6 oz ≈ one small mug; 1 oz ≈ one espresso shot). Store and calculate in **grams** internally.
+
+| Method / preset | Serving size | Typical coffee (g) | Default (g) |
+|-----------------|--------------|-------------------|-------------|
+| `bulk_brew` — French press | 6 oz | 10–14g | **12g** |
+| `bulk_brew` — drip | 6 oz | 9–10g | **10g** |
+| `bulk_brew` — pour-over | 6 oz | 10–12g | **11g** |
+| `manual_espresso` — espresso shot | 1 oz | 10g | **10g** |
+| `manual_espresso` — cappuccino (double shot) | 6 oz | 14–20g | **17g** (midpoint) |
+
+**How defaults apply:**
+
+- **`bulk_brew` gear presets** (`drip`, `french_press`, `pour_over`) prefill `grams_per_cup` from the **Default (g)** column when the user switches preset.
+- **`manual_espresso`** prefills **10g** (1 oz shot). Milk-drink drinkers (e.g. cappuccino) should raise grams toward **14–20g** for a 6 oz drink; a dedicated drink preset is optional post-v1.
+- **`bean_to_cup`** is not in this ratio set (machine auto-doses); keep a separate illustrative default in `methods.ts` until owner confirms.
+
+UI hints on the grams field should reflect the **Typical coffee (g)** range and serving size for the active preset or method.
 
 ### 5.4 Default value philosophy
 
@@ -249,9 +269,9 @@ Each selected method exposes a **collapsible section** or column with method-spe
 | `bean_to_cup` | 4 | One-touch café drinks; minimal shop need |
 
 - Use **USD** and **imperial** units (oz/lb) in labels; store internally in consistent units (grams + USD) for math.
-- Defaults must be **editable**; document assumptions on About page.
+- Defaults must be **editable**; document assumptions on About page (include §5.3 brewing ratios).
 
-**[OPEN]** Exact home-ingredient and machine default numbers — to be confirmed or sourced before launch.
+**[OPEN]** Exact machine and ingredient **dollar** defaults — to be confirmed or sourced before launch. Default **brewing ratios** (grams per serving) are confirmed in §5.3.
 
 ---
 
@@ -527,7 +547,7 @@ Use **`client:load`** on `BrewdownApp` so inputs and chart are interactive immed
 
 ### 9.3 Data architecture
 
-- **Method definitions** in `src/data/methods.ts` (or JSON imported at build time): id, label, default grams, default machine cost, default ingredient cost, **default coffee shop drinks**, field visibility
+- **Method definitions** in `src/data/methods.ts` (or JSON imported at build time): id, label, default grams (§5.3), default machine cost, default ingredient cost, **default coffee shop drinks**, field visibility
 - **No API** — all defaults ship with the static bundle at build time
 - **No localStorage** required in v1; optional “remember my inputs” later
 
@@ -615,6 +635,7 @@ Please answer these to finalize the spec:
 5. ~~**Analytics**~~ — **Resolved.** Vercel Web Analytics on Hobby (free); `@vercel/analytics` in site layout; no custom events in v1.
 6. ~~**Visual direction**~~ — **Resolved.** FoxDoo-inspired warm editorial layout; illustrated accents per app-icon style; tokens in `design/tokens.css`.
 7. **Consumables:** Include annual filter/descaling costs in v1, or ship without them?
+7a. ~~**Default brewing ratios**~~ — **Resolved.** Grams-per-serving defaults in §5.3 (French press 10–14g/6oz → 12g; drip 9–10g/6oz → 10g; pour-over 10–12g/6oz → 11g; espresso 10g/1oz; cappuccino 14–20g/6oz → 17g).
 8. **Default dollar amounts:** Provide preferred defaults per method, or should implementation use researched illustrative values?
 9. **Affiliate partners:** Which programs/links for v1 (Amazon, specific machines, coffee subscriptions)?
 10. **Live vs button calculate:** Debounced live update or explicit button?
@@ -647,13 +668,13 @@ Please answer these to finalize the spec:
 
 ## Appendix A — Example default scenario (illustrative)
 
-*Numbers below are placeholders until §12.8 is answered.*
+*Dollar amounts below are placeholders until §12 item 8 is answered. Brewing ratios follow §5.3.*
 
 | Input | Pods (K-Cup preset) | Bean-to-cup |
 |-------|---------------------|-------------|
 | Cups/day (home) | 2 | 2 |
 | Ingredient cost | $0.65 / pod | $12 / lb beans |
-| Pods or grams per cup | 1 pod | 15g |
+| Pods or grams per cup | 1 pod | 18g (bean-to-cup auto-dose; not in §5.3 ratio set) |
 | Machine cost | $120 | $800 |
 | Coffee coffee shop drinks/month | 12 | 4 |
 | Price per shop drink (global) | $5.00 | $5.00 |
@@ -673,11 +694,18 @@ Please answer these to finalize the spec:
 
 **Bulk gear presets (`bulk_brew`):**
 
-| Preset | Machine | $/lb | Shop/mo |
-|--------|---------|------|---------|
-| drip | $45 | $10 | 8 |
-| french_press | $28 | $11 | 10 |
-| pour_over | $55 | $12 | 8 |
+| Preset | Serving | Coffee (typical) | Default (g) | Machine | $/lb | Shop/mo |
+|--------|---------|------------------|-------------|---------|------|---------|
+| drip | 6 oz | 9–10g | 10g | $45 | $10 | 8 |
+| french_press | 6 oz | 10–14g | 12g | $28 | $11 | 10 |
+| pour_over | 6 oz | 10–12g | 11g | $55 | $12 | 8 |
+
+**Manual espresso (`manual_espresso`) brewing ratios:**
+
+| Drink | Serving | Coffee (typical) | Default (g) |
+|-------|---------|------------------|-------------|
+| Espresso shot | 1 oz | 10g | 10g |
+| Cappuccino (double shot) | 6 oz | 14–20g | 17g |
 
 **Pod style presets (`pods`):**
 
