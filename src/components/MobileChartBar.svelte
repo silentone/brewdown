@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { mdiChartLine } from '@mdi/js';
+  import { mdiChartLine, mdiChevronDown } from '@mdi/js';
   import { Icon } from 'svelte-ux';
   import { METHODS } from '../data/methods';
   import { formatUsd } from '../lib/format';
@@ -8,16 +8,18 @@
   interface Props {
     results: MethodResult[];
     chartEl: HTMLElement | null;
+    recommendationsEl?: HTMLElement | null;
     enabled?: boolean;
-    chartInView?: boolean;
   }
 
   let {
     results,
     chartEl,
+    recommendationsEl = null,
     enabled = true,
-    chartInView = $bindable(false),
   }: Props = $props();
+
+  let chartInView = $state(false);
 
   const barTotals = $derived.by(() => {
     const sorted = [...results].sort((a, b) => a.breakdown.total - b.breakdown.total);
@@ -44,11 +46,21 @@
       .join(', '),
   );
 
-  const ariaLabel = $derived(
-    `Compare totals: ${totalsCopy}. View chart.`,
+  const showRecommendationsCta = $derived(
+    chartInView && recommendationsEl != null,
   );
 
-  const showBar = $derived(enabled && !chartInView && barTotals.length > 0);
+  const ariaLabel = $derived(
+    showRecommendationsCta
+      ? 'See recommended machines for your comparison.'
+      : `Compare totals: ${totalsCopy}. View chart.`,
+  );
+
+  const showBar = $derived(
+    enabled &&
+      barTotals.length > 0 &&
+      (!chartInView || recommendationsEl != null),
+  );
 
   $effect(() => {
     const el = chartEl;
@@ -71,16 +83,23 @@
     };
   });
 
-  function scrollToChart() {
-    if (!chartEl) {
-      return;
-    }
-
+  function scrollIntoView(el: HTMLElement) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    chartEl.scrollIntoView({
+    el.scrollIntoView({
       behavior: reducedMotion ? 'auto' : 'smooth',
       block: 'start',
     });
+  }
+
+  function handleBarClick() {
+    if (showRecommendationsCta && recommendationsEl) {
+      scrollIntoView(recommendationsEl);
+      return;
+    }
+
+    if (chartEl) {
+      scrollIntoView(chartEl);
+    }
   }
 </script>
 
@@ -92,23 +111,35 @@
       type="button"
       class="flex w-full items-center justify-between gap-3 rounded-xl border border-[var(--line-strong)] bg-paper/90 px-4 py-3 text-left shadow-md backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20"
       aria-label={ariaLabel}
-      onclick={scrollToChart}
+      onclick={handleBarClick}
     >
-      <span class="flex min-w-0 truncate gap-x-3 text-sm text-ink">
-        {#each barTotals as result (result.methodId)}
-          <span class="shrink-0">
-            <span class="font-medium">{METHODS[result.methodId].shortLabel}:</span>
-            {' '}
-            <span class="font-bold font-mono">{formatUsd(result.breakdown.total)}</span>
-          </span>
-        {/each}
-      </span>
-      <span
-        class="flex shrink-0 items-center gap-1.5 font-mono text-xs uppercase tracking-wide text-ink-2"
-      >
-        <Icon data={mdiChartLine} class="size-4" />
-        View chart
-      </span>
+      {#if showRecommendationsCta}
+        <span class="min-w-0 truncate text-sm font-medium text-ink">
+          See recommendations
+        </span>
+        <span
+          class="flex shrink-0 items-center gap-1.5 font-mono text-xs uppercase tracking-wide text-ink-2"
+        >
+          <Icon data={mdiChevronDown} class="size-4" />
+          View picks
+        </span>
+      {:else}
+        <span class="flex min-w-0 truncate gap-x-3 text-sm text-ink">
+          {#each barTotals as result (result.methodId)}
+            <span class="shrink-0">
+              <span class="font-medium">{METHODS[result.methodId].shortLabel}:</span>
+              {' '}
+              <span class="font-bold font-mono">{formatUsd(result.breakdown.total)}</span>
+            </span>
+          {/each}
+        </span>
+        <span
+          class="flex shrink-0 items-center gap-1.5 font-mono text-xs uppercase tracking-wide text-ink-2"
+        >
+          <Icon data={mdiChartLine} class="size-4" />
+          View chart
+        </span>
+      {/if}
     </button>
   </div>
 {/if}

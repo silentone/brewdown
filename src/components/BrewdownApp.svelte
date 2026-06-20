@@ -21,7 +21,14 @@
   import GlobalInputs from './GlobalInputs.svelte';
   import MethodPanel from './MethodPanel.svelte';
   import MobileChartBar from './MobileChartBar.svelte';
+  import ReferralBlocks from './ReferralBlocks.svelte';
   import SummaryCards from './SummaryCards.svelte';
+
+  interface Props {
+    showAffiliates?: boolean;
+  }
+
+  let { showAffiliates = true }: Props = $props();
 
   const DEBOUNCE_MS = 300;
 
@@ -54,7 +61,7 @@
   let openPanels = $state<Partial<Record<MethodId, boolean>>>({});
   let showAdvancedOptions = $state(false);
   let chartSectionEl = $state<HTMLElement | null>(null);
-  let chartInView = $state(false);
+  let recommendationsSectionEl = $state<HTMLElement | null>(null);
 
   const liveValidation = $derived(
     validateFullCalculator({
@@ -81,7 +88,7 @@
   const methodResults = $derived(buildMethodResults(selectedMethods, committedInputs));
 
   const showMobileBar = $derived(
-    committedValidation.valid && selectedMethods.length >= 2 && !chartInView,
+    committedValidation.valid && selectedMethods.length >= 2,
   );
 
   $effect(() => {
@@ -230,29 +237,47 @@
     <Card classes={cardClasses} class="min-w-0">
       {#snippet contents()}
         <div class="space-y-5">
-        <div class="flex items-center justify-between gap-3">
-          <p class="font-mono text-xs uppercase tracking-wide text-ink-3">
-            Results · Cumulative brewing cost
-          </p>
-          {#if isUpdating}
-            <span class="text-xs text-ink-3" aria-live="polite">Updating…</span>
-          {/if}
-        </div>
-
         {#if selectedMethodIds.length === 0}
+          <div class="flex items-center justify-between gap-3">
+            <p class="font-mono text-xs uppercase tracking-wide text-ink-3">
+              Results · Cumulative brewing cost
+            </p>
+          </div>
           <p class="text-sm text-brand-deep">
             Select at least one method to see brewing cost results.
           </p>
         {:else if !committedValidation.valid}
+          <div class="flex items-center justify-between gap-3">
+            <p class="font-mono text-xs uppercase tracking-wide text-ink-3">
+              Results · Cumulative brewing cost
+            </p>
+          </div>
           <p class="text-sm text-ink-2">
             Adjust the inputs on the left. Results update automatically once values are valid.
           </p>
         {:else}
-          <div id="brewdown-chart" bind:this={chartSectionEl}>
+          <div id="brewdown-chart" bind:this={chartSectionEl} class="space-y-5">
+            <div class="flex items-center justify-between gap-3">
+              <p class="font-mono text-xs uppercase tracking-wide text-ink-3">
+                Results · Cumulative brewing cost
+              </p>
+              {#if isUpdating}
+                <span class="text-xs text-ink-3" aria-live="polite">Updating…</span>
+              {/if}
+            </div>
+
             <CostChart selectedMethodIds={selectedMethods} inputs={committedInputs} />
           </div>
 
           <SummaryCards selectedMethodIds={selectedMethods} inputs={committedInputs} />
+
+          {#if showAffiliates}
+            <ReferralBlocks
+              selectedMethodIds={selectedMethods}
+              inputs={committedInputs}
+              bind:sectionEl={recommendationsSectionEl}
+            />
+          {/if}
         {/if}
         </div>
       {/snippet}
@@ -262,7 +287,7 @@
   <MobileChartBar
     results={methodResults}
     chartEl={chartSectionEl}
+    recommendationsEl={recommendationsSectionEl}
     enabled={committedValidation.valid && selectedMethods.length >= 2}
-    bind:chartInView
   />
 </section>

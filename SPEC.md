@@ -78,7 +78,7 @@ flowchart LR
 3. User selects **two or more** brewing methods from the comparison set.
 4. User triggers calculation (explicit button and/or live update — see §7.3).
 5. Results show a **cumulative brewing cost chart** (home + shop spend per method); users see lines **cross** when a higher-upfront method becomes cheaper, amplified by lower café spend on better methods.
-6. Contextual **referral links** appear near results for machines/consumables relevant to the winning or selected methods.
+6. Contextual **referral links** appear near results for **machines only**, grouped by selected comparison methods (cheapest method first). Pod-style brewing (`pods`) shows no referral links.
 
 ---
 
@@ -312,18 +312,15 @@ Simple table:
 
 FoxDoo-style patterns adapted for the calculator:
 
-- **Page shell:** warm `--paper` background; max-width container with `--gutter` padding
-- **Header:** minimal sticky nav — wordmark left, About / Privacy right; thin bottom border (`--line`)
+- **Page shell:** warm `--paper` background; max-width container with `--gutter` padding; **no site header** — content begins at the hero
 - **Hero band:** display headline + one-line value prop; optional **hero illustration** (outlined coffee tools cluster) on desktop right, hidden or simplified on mobile
 - **Eyebrow labels:** small mono caps above sections — FoxDoo section-label pattern
 - **Main grid:** two-column on desktop (inputs left, results right); stacks on mobile
 - **Cards:** `--paper-2` or white surface on `--paper`, `--r-lg` radius, `--shadow-md`; savings callout uses `--brand-soft` tint
-- **Footer:** muted `--ink-3` text, affiliate disclosure, ©
+- **Footer:** site nav (Calculator, About, Privacy), muted `--ink-3` text, affiliate disclosure, © — **only** navigation placement in v1
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  Header: The Brewdown wordmark, nav (About, Privacy)    │
-├─────────────────────────────────────────────────────────┤
 │  Hero: headline + value prop          [illustration]  │
 │  eyebrow: CALCULATOR · HOME BREWING COST                │
 ├──────────────────────────┬──────────────────────────────┤
@@ -334,7 +331,7 @@ FoxDoo-style patterns adapted for the calculator:
 │                          │  - Breakdown table           │
 │                          │  - Referral CTAs             │
 ├──────────────────────────┴──────────────────────────────┤
-│  Footer: affiliate disclosure, ©                        │
+│  Footer: nav (Calculator, About, Privacy), disclosure, ©│
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -352,16 +349,26 @@ Recommendation: **debounced live update** for responsiveness, with chart animati
 ### 7.4 Referral link placement (v1)
 
 - No display ads in v1
-- After results render, show **contextual** affiliate blocks:
-  - Bean-to-cup machine when `bean_to_cup` is selected or wins
-  - Keurig / Nespresso machine or pods when `pods` is in comparison (match pod style preset if set)
-  - Espresso machine / grinder when `manual_espresso` is selected
-  - Pour-over dripper / kettle when `bulk_brew` gear preset is `pour_over`
-  - Generic bulk coffee links for `bulk_brew` and other bulk methods
-- Clear label: **“Affiliate link”** or “We may earn a commission”
+- After results render, show **machine-only** affiliate blocks (no consumable links)
+- **No links** when only pod-style brewing (`pods`) is in scope for referrals; if `pods` is selected alongside other methods, pods contributes no group
+- **3 preset machine links** per eligible preset key (budget-to-premium order within each group):
+
+| Preset key | Links shown when |
+|------------|------------------|
+| `bean_to_cup` | `bean_to_cup` is selected |
+| `manual_espresso` | `manual_espresso` is selected |
+| `bulk_brew` + `drip` | `bulk_brew` selected and gear preset is `drip` |
+| `bulk_brew` + `french_press` | `bulk_brew` selected and gear preset is `french_press` |
+| `bulk_brew` + `pour_over` | `bulk_brew` selected and gear preset is `pour_over` |
+
+- **`bulk_brew`** links follow the active gear preset (drip / French press / pour-over)
+- Groups ordered by **cost rank** from comparison results (cheapest method group first)
+- Groups visually separated by brewing method (method heading + 3 link cards per group)
+- Placeholder URLs (`#`) until affiliate programs are finalized
+- Section heading: **"Recommended machines"**; disclosure copy: **"Affiliate link"** or "We may earn a commission"
 - Links open in new tab with `rel="noopener sponsored"`
 
-**[OPEN]** Affiliate programs (Amazon Associates, specific brands, etc.) and whether links are hardcoded or config-driven JSON.
+**[OPEN]** Affiliate programs (Amazon Associates, specific brands, etc.) and final product URLs for each preset slot.
 
 ### 7.5 Visual design system (FoxDoo-inspired)
 
@@ -474,8 +481,8 @@ Astro ships **zero client JS by default**. Only marked islands hydrate in the br
 
 **Shared layout (static):**
 
-- `src/layouts/BaseLayout.astro` — `<html>`, meta, global styles, header nav, footer; includes `<Analytics />` from `@vercel/analytics/astro`
-- Header links to `/`, `/about`, `/privacy`; affiliate disclosure in footer
+- `src/layouts/BaseLayout.astro` — `<html>`, meta, global styles, `<main>` slot, footer; includes `<Analytics />` from `@vercel/analytics/astro`
+- `src/components/Footer.astro` — site nav links to `/`, `/about`, `/privacy`; affiliate disclosure and © in footer (no header nav)
 
 **Landing page (`src/pages/index.astro`):**
 
@@ -627,8 +634,8 @@ Please answer these to finalize the spec:
 - [ ] Each method has editable shop drinks (week/month); defaults show bean-to-cup **lower** than pods (hook 2)
 - [ ] Summary breakdown separates **home** vs **shop** spend per method
 - [ ] Crossover year/month is labeled on the chart when applicable
-- [ ] Referral blocks visible with affiliate disclosure; no display ads
-- [ ] About and Privacy pages linked from header/footer
+- [ ] Referral blocks show **machine-only** links, grouped by brewing method (3 links per group), cheapest method first; no links for pod-style brewing; affiliate disclosure visible; no display ads
+- [ ] About and Privacy pages linked from footer nav
 - [ ] Responsive layout works on mobile and desktop
 - [ ] Site builds with `astro build` (`output: 'static'`) and deploys to **Vercel** with no server runtime
 - [ ] `/about` and `/privacy` render as static HTML with no client islands

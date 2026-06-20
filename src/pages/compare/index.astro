@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CalculatorPageShell from '../../components/CalculatorPageShell.astro';
+import { resolveFlavor } from '../../lib/site-flavor';
+
+const flavor = resolveFlavor(Astro.url);
+---
+
+<BaseLayout flavor={flavor}>
+  <CalculatorPageShell flavor={flavor} />
+</BaseLayout>

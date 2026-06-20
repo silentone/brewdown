@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About | The Brewdown"
+  description="How The Brewdown estimates total cost of brewing at home: upfront machine cost, daily ingredients, and per-method coffee shop spending over a multi-year comparison."
+>
+  <article class="mx-auto max-w-3xl px-[var(--gutter)] py-10 md:py-14">
+    <p class="font-mono text-xs uppercase tracking-wide text-ink-3">About · The Brewdown</p>
+    <h1 class="mt-2 font-display text-4xl font-bold tracking-tight text-ink md:text-5xl">
+      Straight talk on what home coffee actually costs
+    </h1>
+    <p class="mt-4 text-lg text-ink-2">
+      The Brewdown helps cost-conscious households compare the total cost of brewing at home across
+      pods, bean-to-cup, bulk brew, and manual espresso. No jargon, no hobbyist rabbit holes: just
+      numbers you can adjust to match your habits.
+    </p>
+
+    <section class="mt-10 space-y-4">
+      <h2 class="font-display text-2xl font-bold text-ink">How estimates work</h2>
+      <p class="text-ink-2">
+        Each comparison line adds three parts: an upfront machine cost on day one, ongoing home
+        brewing (ingredients at your cups-per-day rate), and that method's expected coffee shop
+        spending. We do not spread machine cost across years; a $800 bean-to-cup machine shows up as
+        $800 at the start of the chart, not amortized over time.
+      </p>
+      <p class="text-ink-2">
+        The cumulative cost chart spans 60 months internally. That horizon is a modeling choice for
+        the calculator, not a promise about how long your gear will last. Results update live as you
+        change inputs; everything runs in your browser with no account and no data sent to our
+        servers.
+      </p>
+      <ul class="list-disc space-y-2 pl-5 text-ink-2">
+        <li>
+          <strong class="font-medium text-ink">Included:</strong> machine upfront cost, home
+          ingredients (beans, grounds, or pods), and per-method café visits at your shop drink price.
+        </li>
+        <li>
+          <strong class="font-medium text-ink">Excluded in v1:</strong> electricity, water, milk,
+          syrups, tips, labor, and the time you spend brewing. Filter and descaling costs are optional
+          per-method fields when enabled.
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-10 space-y-4">
+      <h2 class="font-display text-2xl font-bold text-ink">Fewer café visits matter</h2>
+      <p class="text-ink-2">
+        Better home setups often mean fewer trips to the coffee shop. Each method carries its own
+        default shop drink frequency: bean-to-cup assumes fewer residual café visits than pods, for
+        example. That difference shows up in the breakdown and can steepen long-term savings beyond
+        cheaper per-cup home brewing alone.
+      </p>
+      <p class="text-ink-2">
+        Defaults are starting points based on typical habits, not predictions about your life. Adjust
+        shop drinks per method to reflect how you actually buy coffee away from home.
+      </p>
+    </section>
+
+    <section class="mt-10 space-y-4">
+      <h2 class="font-display text-2xl font-bold text-ink">Default dollar amounts</h2>
+      <p class="text-ink-2">
+        Placeholder machine and ingredient prices come from publicly listed retail ranges and
+        illustrative research. They are meant for comparison, not as quotes for a specific product.
+        Override any field with prices from your cart, local shops, or recent purchases.
+      </p>
+    </section>
+
+    <section class="mt-10 rounded-lg border border-[var(--line)] bg-paper-2 px-5 py-5 shadow-md">
+      <h2 class="font-display text-xl font-bold text-ink">Illustrative only</h2>
+      <p class="mt-2 text-ink-2">
+        The Brewdown provides illustrative cost estimates only. It is not financial, tax, or
+        investment advice. Actual costs depend on the products you buy, how often you brew, and local
+        prices. Use the calculator to explore scenarios, not as a sole basis for purchasing
+        decisions.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

@@ -1,16 +1,19 @@
 ---
 import Analytics from '@vercel/analytics/astro';
 import Footer from '../components/Footer.astro';
+import type { SiteFlavor } from '../lib/site-flavor';
 import '../styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
+  flavor?: SiteFlavor;
 }
 
 const {
   title = 'The Brewdown: Coffee Cost Calculator, Compare Pods, Bean-to-Cup, Bulk Brew & Espresso',
   description = 'Compare the total cost of brewing at home across four archetypes: pods, bean-to-cup, bulk brew, and manual espresso. See when bulk brewing overtakes pods and how fewer shop visits add up.',
+  flavor = 'standard',
 } = Astro.props;
 ---
 
@@ -35,12 +38,13 @@ const {
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
     />
     <title>{title}</title>
+    {flavor === 'partner' && <meta name="robots" content="noindex" />}
   </head>
   <body class="flex min-h-dvh flex-col">
     <main class="flex-1">
       <slot />
     </main>
-    <Footer />
+    <Footer flavor={flavor} />
     <Analytics />
   </body>
 </html>
