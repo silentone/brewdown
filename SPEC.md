@@ -371,7 +371,7 @@ Recommendation: **debounced live update** for responsiveness, with chart animati
 - No display ads in v1
 - After results render, show **machine-only** affiliate blocks (no consumable links)
 - **No links** when only pod-style brewing (`pods`) is in scope for referrals; if `pods` is selected alongside other methods, pods contributes no group
-- **3 preset machine links** per eligible preset key (budget-to-premium order within each group):
+- **3 product cards** per eligible preset key (budget-to-premium order within each group):
 
 | Preset key | Links shown when |
 |------------|------------------|
@@ -381,12 +381,16 @@ Recommendation: **debounced live update** for responsiveness, with chart animati
 | `bulk_brew` + `french_press` | `bulk_brew` selected and gear preset is `french_press` |
 | `bulk_brew` + `pour_over` | `bulk_brew` selected and gear preset is `pour_over` |
 
-- **`bulk_brew`** links follow the active gear preset (drip / French press / pour-over)
+- **`bulk_brew`** cards follow the active gear preset (drip / French press / pour-over)
 - Groups ordered by **cost rank** from comparison results (cheapest method group first)
-- Groups visually separated by brewing method (method heading + 3 link cards per group)
-- Placeholder URLs (`#`) until affiliate programs are finalized
-- Section heading: **"Recommended machines"**; disclosure copy: **"Affiliate link"** or "We may earn a commission"
-- Links open in new tab with `rel="noopener sponsored"`
+- Groups visually separated by brewing method (method heading + 3 product cards per group)
+- Each card is a single clickable affiliate link (`target="_blank"`, `rel="noopener sponsored"`) with:
+  - Product thumbnail (local WebP under `/affiliates/`, square aspect, `object-contain`)
+  - Product name (2-line clamp)
+  - One-sentence highlight distilled from review themes (static copy in `affiliates.ts`)
+  - Decorative **"Check price"** CTA span (not a nested button)
+- Section heading: **"Recommended machines"**; disclosure copy: **"We may earn a commission on purchases."**
+- Product metadata (URLs, images, highlights) curated locally in `src/data/affiliates.ts`
 
 **[OPEN]** Affiliate programs (Amazon Associates, specific brands, etc.) and final product URLs for each preset slot.
 
@@ -519,7 +523,7 @@ Use a **single parent island** (`BrewdownApp`) so calculator state, Svelte UX fo
 - Global inputs: `Input`, `Select` or `SegmentedControl`, `Checkbox`
 - Per-method sections: `Accordion` or `Card` with collapsible fields
 - Results: `Card` for summary metrics and savings callout
-- Referral blocks: `Card` + styled links
+- Referral blocks: product cards (thumbnail, highlight, full-card affiliate link)
 
 **LayerChart** (inside `CostChart.svelte`):
 
@@ -655,7 +659,7 @@ Please answer these to finalize the spec:
 - [ ] Each method has editable coffee shop drinks (week/month); defaults show bean-to-cup **lower** than pods (hook 2)
 - [ ] Summary breakdown separates **home** vs **shop** spend per method
 - [ ] Crossover year/month is labeled on the chart when applicable
-- [ ] Referral blocks show **machine-only** links, grouped by brewing method (3 links per group), cheapest method first; no links for pod-style brewing; affiliate disclosure visible; no display ads
+- [ ] Referral blocks show **machine-only** product cards (thumbnail, highlight, full-card link), grouped by brewing method (3 cards per group), cheapest method first; no links for pod-style brewing; affiliate disclosure visible; no display ads
 - [ ] About and Privacy pages linked from footer nav
 - [ ] Responsive layout works on mobile and desktop
 - [ ] Site builds with `astro build` (`output: 'static'`) and deploys to **Vercel** with no server runtime

@@ -21,30 +21,57 @@
 
   let chartInView = $state(false);
 
-  const barTotals = $derived.by(() => {
+  type BarDisplay =
+    | { kind: 'single'; shortLabel: string; total: number }
+    | { kind: 'tie' }
+    | { kind: 'savings'; shortLabel: string; difference: number; mostExpensiveLabel: string };
+
+  const barDisplay = $derived.by((): BarDisplay | null => {
     const sorted = [...results].sort((a, b) => a.breakdown.total - b.breakdown.total);
     if (sorted.length === 0) {
-      return [];
+      return null;
+    }
+
+    if (sorted.length === 1) {
+      const result = sorted[0]!;
+      return {
+        kind: 'single',
+        shortLabel: METHODS[result.methodId].shortLabel,
+        total: result.breakdown.total,
+      };
     }
 
     const cheapest = sorted[0]!;
     const mostExpensive = sorted[sorted.length - 1]!;
+    const difference = mostExpensive.breakdown.total - cheapest.breakdown.total;
 
-    if (cheapest.methodId === mostExpensive.methodId) {
-      return [cheapest];
+    if (difference <= 0) {
+      return { kind: 'tie' };
     }
 
-    return [cheapest, mostExpensive];
+    return {
+      kind: 'savings',
+      shortLabel: METHODS[cheapest.methodId].shortLabel,
+      difference,
+      mostExpensiveLabel: METHODS[mostExpensive.methodId].shortLabel,
+    };
   });
 
-  const totalsCopy = $derived(
-    barTotals
-      .map(
-        (result) =>
-          `${METHODS[result.methodId].shortLabel}: ${formatUsd(result.breakdown.total)}`,
-      )
-      .join(', '),
-  );
+  const totalsCopy = $derived.by(() => {
+    if (!barDisplay) {
+      return '';
+    }
+
+    if (barDisplay.kind === 'single') {
+      return `${barDisplay.shortLabel}: ${formatUsd(barDisplay.total)}`;
+    }
+
+    if (barDisplay.kind === 'tie') {
+      return 'Same cost';
+    }
+
+    return `${barDisplay.shortLabel} costs ${formatUsd(barDisplay.difference)} less than ${barDisplay.mostExpensiveLabel}`;
+  });
 
   const showRecommendationsCta = $derived(
     chartInView && recommendationsEl != null,
@@ -58,7 +85,7 @@
 
   const showBar = $derived(
     enabled &&
-      barTotals.length > 0 &&
+      barDisplay != null &&
       (!chartInView || recommendationsEl != null),
   );
 
@@ -124,14 +151,20 @@
           View picks
         </span>
       {:else}
-        <span class="flex min-w-0 truncate gap-x-3 text-sm text-ink">
-          {#each barTotals as result (result.methodId)}
-            <span class="shrink-0">
-              <span class="font-medium">{METHODS[result.methodId].shortLabel}:</span>
-              {' '}
-              <span class="font-bold font-mono">{formatUsd(result.breakdown.total)}</span>
-            </span>
-          {/each}
+        <span class="min-w-0 truncate text-sm text-ink">
+          {#if barDisplay?.kind === 'single'}
+            <span class="font-medium">{barDisplay.shortLabel}:</span>
+            {' '}
+            <span class="font-bold font-mono">{formatUsd(barDisplay.total)}</span>
+          {:else if barDisplay?.kind === 'tie'}
+            <span class="font-medium">Same cost</span>
+          {:else if barDisplay?.kind === 'savings'}
+            <span class="font-medium">{barDisplay.shortLabel}</span>
+            {' '}
+            <span class="font-bold font-mono">{formatUsd(barDisplay.difference)}</span>
+            {' '}
+            <span class="font-medium">less</span>
+          {/if}
         </span>
         <span
           class="flex shrink-0 items-center gap-1.5 rounded-full border border-brand/30 bg-white/80 px-2.5 py-1 font-mono text-xs uppercase tracking-wide text-brand-deep"

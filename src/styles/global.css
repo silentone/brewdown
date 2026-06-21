@@ -128,8 +128,10 @@
     @apply cursor-not-allowed opacity-60;
   }
 
-  .method-pill-checkbox:not(:has(input:checked)):not(:has(input:disabled)):hover {
-    @apply border-ink-3 bg-paper-2;
+  @media (hover: hover) and (pointer: fine) {
+    .method-pill-checkbox[aria-pressed='false']:not(:has(input:disabled)):hover {
+      @apply border-ink-3 bg-paper-2;
+    }
   }
 
   .method-pill-checkbox:has(input:focus-visible) {

@@ -97,10 +97,11 @@
 
     isUpdating = true;
     const timer = setTimeout(() => {
+      const committedMethodInputs = $state.snapshot(methodInputs);
       committedInputs = {
         cupsPerDay,
         pricePerShopDrink,
-        methodInputs: $state.snapshot(methodInputs),
+        methodInputs: committedMethodInputs,
       };
       isUpdating = false;
     }, DEBOUNCE_MS);
@@ -119,13 +120,14 @@
   }
 
   function toggleMethod(methodId: MethodId) {
-    if (selectedMethodIds.includes(methodId)) {
-      selectedMethodIds = selectedMethodIds.filter((id) => id !== methodId);
-      return;
-    }
+    const isSelectedBefore = selectedMethodIds.includes(methodId);
 
-    selectedMethodIds = [...selectedMethodIds, methodId];
-    openPanels = { ...openPanels, [methodId]: true };
+    if (isSelectedBefore) {
+      selectedMethodIds = selectedMethodIds.filter((id) => id !== methodId);
+    } else {
+      selectedMethodIds = [...selectedMethodIds, methodId];
+      openPanels = { ...openPanels, [methodId]: true };
+    }
   }
 </script>
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Card } from 'svelte-ux';
   import type { MethodId } from '../data/methods';
   import { resolveAffiliateGroups } from '../data/affiliates';
   import type { CalculatorInputs } from '../lib/brewing-cost';
@@ -47,18 +46,33 @@
 
           <div class="grid gap-3 sm:grid-cols-3">
             {#each group.links as link (link.id)}
-              <Card classes={cardClasses} class="min-w-0">
-                {#snippet contents()}
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener sponsored"
-                    class="text-sm font-medium text-brand underline decoration-brand/30 underline-offset-2 hover:text-brand-deep"
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener sponsored"
+                class="{cardClasses.root} group flex min-w-0 flex-col overflow-hidden transition-shadow hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20"
+              >
+                <img
+                  src={link.image}
+                  alt=""
+                  width="500"
+                  height="500"
+                  loading="lazy"
+                  decoding="async"
+                  class="aspect-square w-full bg-white object-contain p-3"
+                />
+                <div class="flex flex-1 flex-col gap-1.5 p-4">
+                  <p class="text-sm font-medium text-ink">{link.label}</p>
+                  <p class="line-clamp-2 text-xs leading-relaxed text-ink-2" title={link.highlight}>
+                    {link.highlight}
+                  </p>
+                  <span
+                    class="mt-auto pt-2 text-sm font-medium text-brand underline decoration-brand/30 underline-offset-2 group-hover:text-brand-deep"
                   >
-                    {link.label}
-                  </a>
-                {/snippet}
-              </Card>
+                    Check price
+                  </span>
+                </div>
+              </a>
             {/each}
           </div>
         </section>
