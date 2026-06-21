@@ -45,21 +45,21 @@ export const BULK_GEAR_PRESETS: Record<BulkGearPreset, BulkGearPresetDefinition>
     defaultMachineCost: 120,
     defaultIngredientCost: 15,
     defaultGramsPerCup: 10,
-    defaultShopDrinksPerMonth: 8,
+    defaultShopDrinksPerMonth: 4,
   },
   french_press: {
     label: 'French press',
     defaultMachineCost: 30,
     defaultIngredientCost: 15,
     defaultGramsPerCup: 12,
-    defaultShopDrinksPerMonth: 8,
+    defaultShopDrinksPerMonth: 4,
   },
   pour_over: {
     label: 'Pour-over',
     defaultMachineCost: 40,
     defaultIngredientCost: 15,
     defaultGramsPerCup: 11,
-    defaultShopDrinksPerMonth: 8,
+    defaultShopDrinksPerMonth: 4,
     defaultAnnualConsumables: 0,
   },
 };
@@ -69,13 +69,13 @@ export const POD_STYLE_PRESETS: Record<PodStylePreset, PodStylePresetDefinition>
     label: 'K-Cup',
     defaultMachineCost: 120,
     defaultIngredientCost: 0.80,
-    defaultShopDrinksPerMonth: 8,
+    defaultShopDrinksPerMonth: 4,
   },
   nespresso: {
     label: 'Nespresso',
     defaultMachineCost: 180,
     defaultIngredientCost: 1.00,
-    defaultShopDrinksPerMonth: 8,
+    defaultShopDrinksPerMonth: 4,
   },
 };
 
@@ -126,7 +126,7 @@ export const METHODS: Record<MethodId, MethodDefinition> = {
     defaultGramsPerCup: 0,
     defaultIngredientCost: 0.80,
     defaultMachineCost: 120,
-    defaultShopDrinksPerMonth: 8,
+    defaultShopDrinksPerMonth: 4,
     fieldVisibility: ['podsPerCup'],
   },
   bean_to_cup: {
@@ -138,7 +138,7 @@ export const METHODS: Record<MethodId, MethodDefinition> = {
     defaultGramsPerCup: 14,
     defaultIngredientCost: 15,
     defaultMachineCost: 800,
-    defaultShopDrinksPerMonth: 4,
+    defaultShopDrinksPerMonth: 2,
     fieldVisibility: ['gramsPerCup'],
   },
   bulk_brew: {
@@ -150,7 +150,7 @@ export const METHODS: Record<MethodId, MethodDefinition> = {
     defaultGramsPerCup: 11,
     defaultIngredientCost: 15,
     defaultMachineCost: 45,
-    defaultShopDrinksPerMonth: 8,
+    defaultShopDrinksPerMonth: 4,
     fieldVisibility: ['gramsPerCup'],
   },
   manual_espresso: {
@@ -162,7 +162,7 @@ export const METHODS: Record<MethodId, MethodDefinition> = {
     defaultGramsPerCup: 14,
     defaultIngredientCost: 15,
     defaultMachineCost: 550,
-    defaultShopDrinksPerMonth: 4,
+    defaultShopDrinksPerMonth: 2,
     fieldVisibility: ['gramsPerCup'],
   },
 };
@@ -191,7 +191,7 @@ function defaultShopDrinksForPeriod(monthlyDefault: number, period: ShopPeriod):
 
 export function applyBulkGearPreset(
   preset: BulkGearPreset,
-  shopPeriod: ShopPeriod = 'week',
+  shopPeriod: ShopPeriod = 'month',
 ): Partial<MethodInputValues> {
   const gear = BULK_GEAR_PRESETS[preset];
 
@@ -207,7 +207,7 @@ export function applyBulkGearPreset(
 
 export function applyPodStylePreset(
   style: PodStylePreset,
-  shopPeriod: ShopPeriod = 'week',
+  shopPeriod: ShopPeriod = 'month',
 ): Partial<MethodInputValues> {
   const pod = POD_STYLE_PRESETS[style];
 
@@ -224,7 +224,7 @@ export function applyPodStylePreset(
 
 export function createDefaultMethodInputs(methodId: MethodId): MethodInputValues {
   const method = METHODS[methodId];
-  const shopPeriod: ShopPeriod = 'week';
+  const shopPeriod: ShopPeriod = 'month';
 
   if (methodId === 'bulk_brew') {
     return {

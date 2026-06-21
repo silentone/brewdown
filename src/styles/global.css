@@ -158,6 +158,7 @@
   .method-pill-checkbox__icon {
     @apply !text-white;
   }
+
 }
 
 /* Unlayered so these beat LayerChart Tailwind stroke/fill utilities on SVG text */

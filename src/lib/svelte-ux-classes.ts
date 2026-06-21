@@ -37,7 +37,8 @@ export const collapseClasses = {
 } as const;
 
 export const moreOptionsSwitchClasses = {
-  switch: 'border-[var(--line)]',
+  switch:
+    'border-[var(--line)] bg-ink-2 data-[checked=true]:border-brand data-[checked=true]:bg-brand',
   toggle: 'bg-white',
 } as const;
 

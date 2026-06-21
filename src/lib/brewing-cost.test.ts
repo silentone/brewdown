@@ -73,19 +73,19 @@ describe('methods config', () => {
   it('uses Appendix A defaults for pods', () => {
     const pods = createDefaultMethodInputs('pods');
     expect(pods.machineCost).toBe(METHODS.pods.defaultMachineCost);
-    expect(pods.ingredientCost).toBe(0.65);
+    expect(pods.ingredientCost).toBe(METHODS.pods.defaultIngredientCost);
     expect(pods.podsPerCup).toBe(1);
-    expect(pods.shopPeriod).toBe('week');
-    expect(pods.shopDrinks).toBe(3);
+    expect(pods.shopPeriod).toBe('month');
+    expect(pods.shopDrinks).toBe(METHODS.pods.defaultShopDrinksPerMonth);
   });
 
   it('uses Appendix A defaults for bean-to-cup', () => {
     const bean = createDefaultMethodInputs('bean_to_cup');
-    expect(bean.machineCost).toBe(800);
-    expect(bean.ingredientCost).toBe(12);
-    expect(bean.gramsPerCup).toBe(15);
-    expect(bean.shopPeriod).toBe('week');
-    expect(bean.shopDrinks).toBe(1);
+    expect(bean.machineCost).toBe(METHODS.bean_to_cup.defaultMachineCost);
+    expect(bean.ingredientCost).toBe(METHODS.bean_to_cup.defaultIngredientCost);
+    expect(bean.gramsPerCup).toBe(METHODS.bean_to_cup.defaultGramsPerCup);
+    expect(bean.shopPeriod).toBe('month');
+    expect(bean.shopDrinks).toBe(METHODS.bean_to_cup.defaultShopDrinksPerMonth);
   });
 
   it('assigns lower default coffee shop drinks to bean-to-cup than pods (hook 2)', () => {
