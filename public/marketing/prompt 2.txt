@@ -1,0 +1,39 @@
+I'm attaching two images: a photo and a screenshot of a chart. 
+Create a single 9:16 portrait social media post (1080x1920px) that combines them.
+
+CANVAS:
+- Total dimensions: 1080x1920px portrait (9:16)
+- Upper half: photo content and headline text
+- Lower half: chart, styled and integrated — not just dropped in as a screenshot
+
+PHOTO (upper section):
+- Do not crop or distort the photo subjects
+- Expand/extend the background as needed to fill the upper portion naturally
+- The subjects of the photo should anchor the upper half visually
+
+CHART (lower section):
+- Pull the chart data and redraw it as a beautifully styled graphic — 
+  do not use the raw screenshot as-is
+- Match the chart's color palette to the photo's tones and mood
+- Make it feel editorial and exciting, not like a spreadsheet
+- Use bold visual contrast to highlight the winning/dominant subject
+- Add a subtle texture or background treatment so it feels designed, not sterile
+- Bars, callouts, or data labels should feel punchy and confident
+
+TEXT:
+- Headline: "Fancy Coffee Is Cheaper Than Pods"
+  Font: Bebas Neue
+  Color: black or dark
+  Placement: Upper section, above or overlaid on the photo
+
+- Subline: "We built a calculator that proves it."
+  Font: Just Another Hande
+  Color: black or dark
+  Placement: Just below headline
+
+STYLE:
+- The overall post should feel like a sports broadcast graphic or 
+  premium editorial comparison — bold, confident, visually cohesive
+- Colors, typography, and chart style should all feel like one designed piece
+- The data should feel like a reveal, not a footnote
+- No raw UI chrome, browser bars, or screenshot artifacts from the chart image

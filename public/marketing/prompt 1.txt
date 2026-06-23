@@ -1,0 +1,25 @@
+Edit this image into a 9:16 portrait social media post (1080x1920px).
+
+CANVAS:
+- Expand the canvas to 9:16 portrait. Do not crop, distort, or alter the original photo in any way.
+- Position the original photo in the lower half of the canvas (bottom 55–60%).
+- Extend the background into the upper portion using content-aware fill or by blending/extending colors naturally from the photo edges.
+
+TEXT (upper section):
+- Headline: "Café Coffee at Home. Press One Button."
+  Font: Glacial Indiference
+  Size: Large, prominent
+  Color: #271E10
+
+- Subline: "Better than the shop. Cheaper than pods. Zero skill required."
+  Font: Bebas neue
+  Size: Medium, secondary to headline
+  Color: #8A5E36
+
+- Stack headline above subline, centered horizontally, placed in the upper third of the canvas.
+- Leave breathing room between the text block and the photo.
+
+STYLE:
+- Keep the overall aesthetic consistent with the photo's tone and color palette.
+- No logos, watermarks, borders, or extra design elements unless specified.
+- Output at 1080x1920px.
