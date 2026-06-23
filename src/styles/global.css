@@ -52,6 +52,118 @@
       );
   }
 
+  .hero-steam-layer {
+    position: absolute;
+    top: clamp(8px, 2vw, 28px);
+    right: 0;
+    z-index: 11;
+    width: min(54vw, 760px);
+    height: clamp(240px, 34vh, 360px);
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.92;
+  }
+
+  .hero-steam-plume {
+    position: absolute;
+    bottom: clamp(-58px, -7vw, -28px);
+    right: 8%;
+    width: clamp(140px, 20vw, 250px);
+    height: clamp(220px, 32vw, 380px);
+    border-radius: 999px;
+    background:
+      radial-gradient(
+        ellipse 65% 48% at 50% 54%,
+        color-mix(in srgb, white 82%, var(--paper)) 0%,
+        color-mix(in srgb, var(--paper) 62%, white) 38%,
+        color-mix(in srgb, var(--paper-3) 52%, transparent) 58%,
+        transparent 75%
+      );
+    filter: blur(7px);
+    transform: translate3d(0, 0, 0) scale(0.88);
+    transform-origin: bottom center;
+    will-change: transform, opacity;
+    animation: hero-steam-rise 9.5s ease-in-out infinite;
+    opacity: 0;
+  }
+
+  .hero-steam-plume:nth-child(1) {
+    right: 4%;
+    animation-delay: 0s;
+    animation-duration: 8.8s;
+  }
+
+  .hero-steam-plume:nth-child(2) {
+    right: 14%;
+    animation-delay: 1s;
+    animation-duration: 9.6s;
+  }
+
+  .hero-steam-plume:nth-child(3) {
+    right: 22%;
+    animation-delay: 2.2s;
+    animation-duration: 9.2s;
+  }
+
+  .hero-steam-plume:nth-child(4) {
+    right: 30%;
+    animation-delay: 3.1s;
+    animation-duration: 10.2s;
+  }
+
+  .hero-steam-plume:nth-child(5) {
+    right: 10%;
+    animation-delay: 4.4s;
+    animation-duration: 8.9s;
+  }
+
+  .hero-steam-plume:nth-child(6) {
+    right: 18%;
+    animation-delay: 5.2s;
+    animation-duration: 9.9s;
+  }
+
+  .hero-steam-plume:nth-child(7) {
+    right: 26%;
+    animation-delay: 6.1s;
+    animation-duration: 9.1s;
+  }
+
+  @keyframes hero-steam-rise {
+    0% {
+      transform: translate3d(0, 0, 0) scale(0.82);
+      opacity: 0;
+    }
+
+    18% {
+      opacity: 0.56;
+    }
+
+    52% {
+      opacity: 0.34;
+    }
+
+    100% {
+      transform: translate3d(-56px, -238px, 0) scale(1.16);
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .hero-steam-layer {
+      width: 72vw;
+      right: -12vw;
+      top: clamp(32px, 7vw, 52px);
+      height: clamp(200px, 28vh, 280px);
+      opacity: 0.82;
+    }
+
+    .hero-steam-plume {
+      width: clamp(116px, 26vw, 180px);
+      height: clamp(182px, 38vw, 280px);
+    }
+  }
+
   .Collapse > button {
     @apply px-4 py-3;
   }
@@ -97,6 +209,12 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .hero-steam-plume {
+      animation: none;
+      opacity: 0.08;
+      transform: translate3d(-16px, -60px, 0) scale(1);
+    }
+
     .advanced-options-field {
       @apply transition-none;
     }
