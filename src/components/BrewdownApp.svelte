@@ -88,6 +88,9 @@
   const showMobileBar = $derived(
     committedValidation.valid && selectedMethods.length >= 2,
   );
+  const showDesktopAffiliates = $derived(
+    showAffiliates && committedValidation.valid && selectedMethodIds.length > 0,
+  );
 
   $effect(() => {
     cupsPerDay;
@@ -137,12 +140,19 @@
     showMobileBar ? 'pb-24' : 'pb-16',
   ]}
 >
-  <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start">
+  <div
+    class={[
+      'grid gap-8 lg:items-start',
+      showDesktopAffiliates
+        ? 'lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)_minmax(0,0.5fr)]'
+        : 'lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)]',
+    ]}
+  >
     <Card classes={cardClasses} class="min-w-0">
       {#snippet contents()}
         <div class="space-y-6">
         <p class="font-mono text-xs uppercase tracking-wide text-ink-3">
-          Inputs · Compare methods
+          Inputs · Compare brewing methods
         </p>
 
         <div>
@@ -254,18 +264,22 @@
           </div>
 
           <SummaryCards selectedMethodIds={selectedMethods} inputs={committedInputs} />
-
-          {#if showAffiliates}
-            <ReferralBlocks
-              selectedMethodIds={selectedMethods}
-              inputs={committedInputs}
-              bind:sectionEl={recommendationsSectionEl}
-            />
-          {/if}
         {/if}
         </div>
       {/snippet}
     </Card>
+
+    {#if showDesktopAffiliates}
+      <Card classes={cardClasses} class="min-w-0 self-start lg:sticky lg:top-6">
+        {#snippet contents()}
+          <ReferralBlocks
+            selectedMethodIds={selectedMethods}
+            inputs={committedInputs}
+            bind:sectionEl={recommendationsSectionEl}
+          />
+        {/snippet}
+      </Card>
+    {/if}
   </div>
 
   <MobileChartBar

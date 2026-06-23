@@ -171,7 +171,7 @@ export const DEFAULT_SELECTED_METHODS: MethodId[] = ['pods', 'bean_to_cup'];
 
 export interface MethodInputValues {
   machineCost: number;
-  /** Bulk methods: cost per pound. Pods: cost per pod/capsule. */
+  /** Bulk methods: cost per pound. Pods: cost per pod. */
   ingredientCost: number;
   gramsPerCup: number;
   podsPerCup: number;

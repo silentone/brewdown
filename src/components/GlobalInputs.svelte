@@ -22,6 +22,7 @@
     <NumericField
       label="Coffee drinks at home per day"
       bind:value={cupsPerDay}
+      autofocus
       classes={fieldClasses}
     />
     <div

@@ -136,7 +136,7 @@
   >
     <button
       type="button"
-      class="flex w-full items-center justify-between gap-3 rounded-xl border border-brand/25 border-t border-brand/20 bg-brand-soft px-4 py-3 text-left shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20"
+      class="mobile-chart-bar flex w-full items-center justify-between gap-3 rounded-xl border border-brand/25 border-t border-brand/20 bg-brand-soft px-4 py-3 text-left shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20"
       aria-label={ariaLabel}
       onclick={handleBarClick}
     >

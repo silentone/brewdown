@@ -88,12 +88,12 @@ flowchart LR
 
 | ID | Display name | Group | Ingredient model | Notes |
 |----|--------------|-------|------------------|-------|
-| `pods` | Pre-packaged pods | One-touch convenience | Per pod/capsule | Pod style preset (K-Cup / Nespresso) prefills machine and pod cost |
+| `pods` | Pre-packaged pods | One-touch convenience | Per pod | Pod style preset (K-Cup / Nespresso) prefills machine and pod cost |
 | `bean_to_cup` | Bean-to-cup (super-automatic) | One-touch convenience | Bulk (grams/lb) | Higher machine cost; lower per-cup ingredient cost; **fewest default coffee shop drinks** |
 | `bulk_brew` | Drip, press, or pour-over | Bulk home brewing | Bulk (grams/lb) | Gear preset (drip / French press / pour-over) prefills machine, ingredient, and shop defaults |
 | `manual_espresso` | Manual espresso | Espresso | Bulk (grams/lb) | Espresso machine + grinder (machine cost may include grinder); see §5.3 for shot and milk-drink ratios |
 
-**Pod method (`pods`) detail:** K-Cup and Nespresso are not separate comparison lines. One `pods` method covers both; the user selects a **pod style preset** (K-Cup or Nespresso) to populate defaults, then can override cost per pod/capsule and machine cost.
+**Pod method (`pods`) detail:** K-Cup and Nespresso are not separate comparison lines. One `pods` method covers both; the user selects a **pod style preset** (K-Cup or Nespresso) to populate defaults, then can override cost per pod and machine cost.
 
 **Bulk brew method (`bulk_brew`) detail:** Drip, French press, and pour-over are not separate comparison lines. One `bulk_brew` method covers all three; the user selects a **gear preset** to populate machine, ingredient, and shop defaults. Grinder toggle deferred post-v1.
 
@@ -224,10 +224,10 @@ Each selected method exposes a **collapsible section** or column with method-spe
 | Pod style (defaults only) | `pods` | Toggle | `kcup` | `kcup` or `nespresso` — prefills cost per pod & machine cost; user can override |
 | Gear preset (defaults only) | `bulk_brew` | Toggle | `drip` | `drip`, `french_press`, or `pour_over` — prefills machine, ingredient, coffee shop drinks, and consumables |
 | Grams of coffee per cup | Bulk methods (`bulk_brew`, `manual_espresso`, `bean_to_cup`) | Number | Method-specific (see §5.3) | Link to “typical range” hint from §5.3 |
-| Cost of coffee ingredients | All home methods | Currency | Method-specific | Bulk: $/lb beans; `pods`: $/pod or $/capsule |
+| Cost of coffee ingredients | All home methods | Currency | Method-specific | Bulk: $/lb beans; `pods`: $/pod |
 | Machine cost | All home methods | Currency | Method-specific | One-time purchase at t=0; manual espresso may bundle grinder into this field in v1 |
 | Coffee coffee shop drinks | **Each method** | Number | Method-specific (see §5.4) | Uses global period toggle (week/month); **key hook 2 input** |
-| Pods/capsules per cup | `pods` | Number | `1` | |
+| Pods per cup | `pods` | Number | `1` | |
 | Annual consumables | Optional | Currency/year | `0` or method default | Drip filters, pour-over papers, descaling; converted to daily in formula |
 
 **UX note:** When the user changes coffee shop drinks on one method, show helper copy: *“Better home setups often mean fewer café trips. Adjust if needed.”* Optionally link “apply suggested defaults” per method tier.
@@ -691,7 +691,7 @@ Please answer these to finalize the spec:
 
 | Method | Cost input unit | Machine? | Default coffee shop drinks/mo |
 |--------|-----------------|----------|------------------------|
-| `pods` | $/pod or $/capsule | Yes | 12 |
+| `pods` | $/pod | Yes | 12 |
 | `bean_to_cup` | $/lb | Yes (highest) | 4 |
 | `bulk_brew` | $/lb | Yes | 8 (drip preset); 10 (French press); 8 (pour-over) |
 | `manual_espresso` | $/lb | Yes (higher) | 5 |

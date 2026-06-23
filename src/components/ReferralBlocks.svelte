@@ -44,7 +44,7 @@
             <p class="text-sm font-medium text-ink-1">{group.label}</p>
           </div>
 
-          <div class="grid gap-3 sm:grid-cols-3">
+          <div class="grid grid-cols-1 gap-3">
             {#each group.links as link (link.id)}
               <a
                 href={link.url}

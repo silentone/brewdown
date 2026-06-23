@@ -7,6 +7,7 @@
     hint?: string;
     disabled?: boolean;
     currency?: boolean;
+  autofocus?: boolean;
     classes?: FieldClasses;
     onchange?: (value: number) => void;
     id?: string;
@@ -20,6 +21,7 @@
     hint = '',
     disabled = false,
     currency = false,
+  autofocus = false,
     classes = fieldClasses,
     onchange,
     id = generatedId,
@@ -102,6 +104,7 @@
           type="text"
           inputmode="decimal"
           autocomplete="off"
+          {autofocus}
           {disabled}
           value={displayValue}
           oninput={handleInput}

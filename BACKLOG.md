@@ -69,7 +69,7 @@ Use these as the reference when drafting regional defaults. Shop drink **counts*
 | K-Cup machine | `POD_STYLE_PRESETS.kcup` | `$120` |
 | K-Cup cost per pod | `POD_STYLE_PRESETS.kcup` | `$0.65` |
 | Nespresso machine | `POD_STYLE_PRESETS.nespresso` | `$180` |
-| Nespresso cost per capsule | `POD_STYLE_PRESETS.nespresso` | `$0.75` |
+| Nespresso cost per pod | `POD_STYLE_PRESETS.nespresso` | `$0.75` |
 
 ### Draft regional defaults (to research / confirm)
 

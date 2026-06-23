@@ -50,8 +50,32 @@
   );
 
   const ingredientLabel = $derived(
-    method.ingredientModel === 'pods' ? 'Cost per pod / capsule' : 'Coffee cost ($/lb)',
+    method.ingredientModel === 'pods' ? 'Cost per pod' : 'Coffee cost ($/lb)',
   );
+
+  const pairedRowLabelClass = 'sm:min-h-[2.5rem] sm:flex sm:items-end leading-tight';
+
+  const rowOneNeedsPairedLabels = $derived(methodId === 'manual_espresso');
+
+  const rowTwoNeedsPairedLabels = $derived(
+    showAdvancedOptions &&
+      (method.fieldVisibility.includes('gramsPerCup') ||
+        method.fieldVisibility.includes('podsPerCup')),
+  );
+
+  const rowOneFieldClasses = $derived({
+    ...fieldClasses,
+    label: rowOneNeedsPairedLabels
+      ? `${fieldClasses.label} ${pairedRowLabelClass}`
+      : fieldClasses.label,
+  });
+
+  const rowTwoFieldClasses = $derived({
+    ...fieldClasses,
+    label: rowTwoNeedsPairedLabels
+      ? `${fieldClasses.label} ${pairedRowLabelClass}`
+      : fieldClasses.label,
+  });
 
   function patch(next: Partial<MethodInputValues>) {
     onValuesChange({ ...values, ...next });
@@ -132,7 +156,7 @@
         currency
         value={values.machineCost}
         onchange={(machineCost) => patch({ machineCost })}
-        classes={fieldClasses}
+        classes={rowOneFieldClasses}
       />
 
       <NumericField
@@ -140,7 +164,7 @@
         currency
         value={values.ingredientCost}
         onchange={(ingredientCost) => patch({ ingredientCost })}
-        classes={fieldClasses}
+        classes={rowOneFieldClasses}
       />
     </div>
 
@@ -150,7 +174,7 @@
         value={values.shopDrinks}
         onchange={(shopDrinks) => patch({ shopDrinks })}
         hint="Better home setups often mean fewer shop visits. Adjust if needed."
-        classes={fieldClasses}
+        classes={rowTwoFieldClasses}
       >
         <div slot="append" class="flex shrink-0 items-center pl-1" on:click|stopPropagation role="none">
           <ToggleGroup
@@ -183,7 +207,7 @@
               onchange={(gramsPerCup) => patch({ gramsPerCup })}
               hint="Typical range: 10 - 20g for most 6oz brews."
               disabled={!showAdvancedOptions}
-              classes={fieldClasses}
+              classes={rowTwoFieldClasses}
             />
           </div>
         </div>
@@ -199,7 +223,7 @@
               value={values.podsPerCup}
               onchange={(podsPerCup) => patch({ podsPerCup })}
               disabled={!showAdvancedOptions}
-              classes={fieldClasses}
+              classes={rowTwoFieldClasses}
             />
           </div>
         </div>
