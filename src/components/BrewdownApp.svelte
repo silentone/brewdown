@@ -60,6 +60,7 @@
   let showAdvancedOptions = $state(false);
   let chartSectionEl = $state<HTMLElement | null>(null);
   let recommendationsSectionEl = $state<HTMLElement | null>(null);
+  let breakdownSectionEl = $state<HTMLElement | null>(null);
 
   const liveValidation = $derived(
     validateFullCalculator({
@@ -263,19 +264,30 @@
             <CostChart selectedMethodIds={selectedMethods} inputs={committedInputs} />
           </div>
 
-          <SummaryCards selectedMethodIds={selectedMethods} inputs={committedInputs} />
+          {#if showDesktopAffiliates}
+            <div class="lg:hidden">
+              <ReferralBlocks
+                selectedMethodIds={selectedMethods}
+                inputs={committedInputs}
+                bind:sectionEl={recommendationsSectionEl}
+              />
+            </div>
+          {/if}
+
+          <div id="brewdown-breakdown" bind:this={breakdownSectionEl}>
+            <SummaryCards selectedMethodIds={selectedMethods} inputs={committedInputs} />
+          </div>
         {/if}
         </div>
       {/snippet}
     </Card>
 
     {#if showDesktopAffiliates}
-      <Card classes={cardClasses} class="min-w-0 self-start lg:sticky lg:top-6">
+      <Card classes={cardClasses} class="hidden min-w-0 self-start lg:sticky lg:top-6 lg:block">
         {#snippet contents()}
           <ReferralBlocks
             selectedMethodIds={selectedMethods}
             inputs={committedInputs}
-            bind:sectionEl={recommendationsSectionEl}
           />
         {/snippet}
       </Card>
@@ -286,6 +298,7 @@
     results={methodResults}
     chartEl={chartSectionEl}
     recommendationsEl={recommendationsSectionEl}
+    breakdownEl={breakdownSectionEl}
     enabled={committedValidation.valid && selectedMethods.length >= 2}
   />
 </section>

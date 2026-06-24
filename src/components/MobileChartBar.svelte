@@ -9,6 +9,7 @@
     results: MethodResult[];
     chartEl: HTMLElement | null;
     recommendationsEl?: HTMLElement | null;
+    breakdownEl?: HTMLElement | null;
     enabled?: boolean;
   }
 
@@ -16,10 +17,13 @@
     results,
     chartEl,
     recommendationsEl = null,
+    breakdownEl = null,
     enabled = true,
   }: Props = $props();
 
   let chartInView = $state(false);
+  let recommendationsInView = $state(false);
+  let breakdownInView = $state(false);
 
   type BarDisplay =
     | { kind: 'single'; shortLabel: string; total: number }
@@ -76,11 +80,16 @@
   const showRecommendationsCta = $derived(
     chartInView && recommendationsEl != null,
   );
+  const showBreakdownCta = $derived(
+    !chartInView && recommendationsInView && !breakdownInView && breakdownEl != null,
+  );
 
   const ariaLabel = $derived(
     showRecommendationsCta
       ? 'See recommended machines for your comparison.'
-      : `Compare totals: ${totalsCopy}. View chart.`,
+      : showBreakdownCta
+        ? 'View detailed cost breakdown for your comparison.'
+        : `Compare totals: ${totalsCopy}. View chart.`,
   );
 
   const showBar = $derived(
@@ -110,6 +119,48 @@
     };
   });
 
+  $effect(() => {
+    const el = recommendationsEl;
+    if (!el) {
+      recommendationsInView = false;
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        recommendationsInView = entry?.isIntersecting ?? false;
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
+  });
+
+  $effect(() => {
+    const el = breakdownEl;
+    if (!el) {
+      breakdownInView = false;
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        breakdownInView = entry?.isIntersecting ?? false;
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
+  });
+
   function scrollIntoView(el: HTMLElement) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     el.scrollIntoView({
@@ -121,6 +172,11 @@
   function handleBarClick() {
     if (showRecommendationsCta && recommendationsEl) {
       scrollIntoView(recommendationsEl);
+      return;
+    }
+
+    if (showBreakdownCta && breakdownEl) {
+      scrollIntoView(breakdownEl);
       return;
     }
 
@@ -170,7 +226,7 @@
           class="flex shrink-0 items-center gap-1.5 rounded-full border border-brand/30 bg-white/80 px-2.5 py-1 font-mono text-xs uppercase tracking-wide text-brand-deep"
         >
           <Icon data={mdiChartLine} class="size-4 text-brand" />
-          View chart
+          {showBreakdownCta ? 'View cost breakdown' : 'View chart'}
         </span>
       {/if}
     </button>
