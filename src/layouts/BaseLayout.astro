@@ -11,10 +11,14 @@ interface Props {
 }
 
 const {
-  title = 'The Brewdown: Coffee Cost Calculator, Compare Pods, Bean-to-Cup, Bulk Brew & Espresso',
-  description = 'Compare the total cost of brewing at home across four archetypes: pods, bean-to-cup, bulk brew, and manual espresso. See when bulk brewing overtakes pods and how fewer shop visits add up.',
+  title = 'Coffee Cost Calculator | The Brewdown',
+  description = 'Compare home coffee costs across pods, bean-to-cup, bulk brew, and espresso. See when bulk brewing beats pods and how fewer cafe visits add up over time.',
   flavor = 'standard',
 } = Astro.props;
+
+const siteUrl = Astro.site ?? 'https://brewdown.vercel.app';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const ogImage = new URL('/illustrations/favicon.png', siteUrl).href;
 ---
 
 <!doctype html>
@@ -24,6 +28,18 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="The Brewdown" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:url" content={canonicalURL} />
     <link rel="icon" type="image/png" href="/illustrations/favicon.png" />
     <link
       rel="stylesheet"
