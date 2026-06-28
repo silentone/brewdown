@@ -1,0 +1,510 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const post2Url = '/blog/keurig-cost-per-cup-comparison';
+const post3Url = '/blog/quit-keurig-pods-7-day-plan';
+---
+
+<BaseLayout
+  title="Best Keurig Alternatives in 2026: Cheaper, Better-Tasting Ways to Brew | The Brewdown"
+  description="Compare drip, French press, pour-over, AeroPress, bean-to-cup, and more by cost per cup, brew time, cleanup, and taste. Run your own numbers in our free calculator."
+>
+  <article class="mx-auto max-w-3xl px-[var(--gutter)] py-10 md:py-14">
+    <p class="font-mono text-xs uppercase tracking-wide text-ink-3">
+      <a href="/blog" class="link-brewdown">Keurig alternatives series</a>
+      · The Brewdown
+    </p>
+    <h1 class="mt-2 font-display text-4xl font-bold tracking-tight text-ink md:text-5xl">
+      Best Keurig Alternatives in 2026: Cheaper, Better-Tasting Ways to Brew
+    </h1>
+    <p class="mt-4 text-lg text-ink-2">
+      A practical roundup of keurig alternatives scored on cost per cup, time, cleanup, and taste,
+      not a 20-product affiliate wall.
+    </p>
+
+    <div class="prose-brewdown mt-10 space-y-10 text-ink-2">
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-bold text-ink">Why people look for a Keurig alternative</h2>
+        <p>
+          Keurig pods trade low upfront friction for rising per-cup cost and limited taste control.
+          If you brew one to three cups a day and care about what you spend, you are exactly who
+          this guide is for.
+        </p>
+        <p>
+          We narrowed the field to six credible brewing paths, each scored on ingredient cost per
+          cup, brew time, cleanup, and taste profile using The Brewdown calculator defaults as a
+          baseline. At those defaults, a K-Cup runs about <strong class="font-medium text-ink">$0.80</strong>
+          per cup in ingredients alone, while French press lands near <strong class="font-medium text-ink">$0.40</strong>.
+          See our <a href={post2Url} class="link-brewdown">full assumptions table for Keurig cost per cup</a>
+          for the step-by-step math.
+        </p>
+        <p>
+          The goal is not to sell you gear. It is to help you pick a keurig replacement that fits
+          your mornings, then verify the savings with numbers you can adjust.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-bold text-ink">Keurig alternatives at a glance</h2>
+        <p>
+          Ingredient-only costs below; machine upfront is separate. For a fuller picture, see
+          <a href={post2Url} class="link-brewdown">how we calculate ingredient cost per cup</a>
+          or <a href="/" class="link-brewdown">run your own numbers in the calculator</a>.
+        </p>
+        <div class="overflow-x-auto rounded-lg border border-[var(--line)] bg-paper-2 shadow-md">
+          <table class="w-full min-w-[36rem] text-left text-sm">
+            <thead>
+              <tr class="border-b border-[var(--line)] font-mono text-xs uppercase tracking-wide text-ink-3">
+                <th class="px-4 py-3 font-medium">Method</th>
+                <th class="px-4 py-3 font-medium">$/cup (ingredients)</th>
+                <th class="px-4 py-3 font-medium">Brew time</th>
+                <th class="px-4 py-3 font-medium">Cleanup</th>
+                <th class="px-4 py-3 font-medium">Best for</th>
+                <th class="px-4 py-3 font-medium">Gear range</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--line)]">
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">K-Cup / Keurig</td>
+                <td class="px-4 py-3">$0.80</td>
+                <td class="px-4 py-3">~1 min</td>
+                <td class="px-4 py-3">Low</td>
+                <td class="px-4 py-3">Baseline convenience</td>
+                <td class="px-4 py-3">~$120 brewer</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Drip coffee maker</td>
+                <td class="px-4 py-3">~$0.33</td>
+                <td class="px-4 py-3">5 to 8 min (passive)</td>
+                <td class="px-4 py-3">Low</td>
+                <td class="px-4 py-3">Multi-cup households</td>
+                <td class="px-4 py-3">$80 to $200</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">French press</td>
+                <td class="px-4 py-3">~$0.40</td>
+                <td class="px-4 py-3">4 min steep</td>
+                <td class="px-4 py-3">Med</td>
+                <td class="px-4 py-3">Lowest-cost better taste</td>
+                <td class="px-4 py-3">$25 to $50</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Pour-over</td>
+                <td class="px-4 py-3">~$0.36</td>
+                <td class="px-4 py-3">2 to 3 min active</td>
+                <td class="px-4 py-3">Low</td>
+                <td class="px-4 py-3">Flavor clarity</td>
+                <td class="px-4 py-3">$30 to $80</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">AeroPress</td>
+                <td class="px-4 py-3">~$0.36</td>
+                <td class="px-4 py-3">2 to 3 min</td>
+                <td class="px-4 py-3">Low</td>
+                <td class="px-4 py-3">Small kitchens, travel</td>
+                <td class="px-4 py-3">$30 to $45</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Bean-to-cup</td>
+                <td class="px-4 py-3">~$0.46</td>
+                <td class="px-4 py-3">~1 min (one touch)</td>
+                <td class="px-4 py-3">Low</td>
+                <td class="px-4 py-3">Push-button upgrade</td>
+                <td class="px-4 py-3">$500 to $2,000+</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Manual espresso</td>
+                <td class="px-4 py-3">~$0.46+</td>
+                <td class="px-4 py-3">3 to 5 min</td>
+                <td class="px-4 py-3">Med to high</td>
+                <td class="px-4 py-3">Espresso drinks at home</td>
+                <td class="px-4 py-3">$400 to $1,500+</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="rounded-lg border border-brand/25 bg-brand-soft px-5 py-5 shadow-md md:px-6">
+          <p class="font-mono text-xs uppercase tracking-wide text-brand-deep">If you only read one thing</p>
+          <p class="mt-2 text-base font-medium leading-relaxed text-ink md:text-lg">
+            <strong class="font-semibold text-ink">French press or drip</strong> win on budget ingredient
+            cost for most households. <strong class="font-semibold text-ink">Bean-to-cup</strong> is the
+            closest one-touch upgrade if you will pay higher upfront machine cost for long-run savings
+            vs pods.
+          </p>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-bold text-ink">How to pick the right alternative for your household</h2>
+        <p>Match your morning reality to a method before you shop.</p>
+        <ul class="list-disc space-y-4 pl-5">
+          <li>
+            <strong class="font-medium text-ink">Speed on busy mornings:</strong> Drip or bean-to-cup.
+            Drip lets you walk away; bean-to-cup is true one-touch. Avoid French press if you cannot
+            spare four minutes before leaving.
+          </li>
+          <li>
+            <strong class="font-medium text-ink">Lowest ingredient cost:</strong> French press or pour-over.
+            Both beat pods on beans alone at default assumptions. Avoid pour-over if two minutes of
+            hands-on pouring feels like a chore.
+          </li>
+          <li>
+            <strong class="font-medium text-ink">Smallest counter footprint:</strong> AeroPress or pour-over.
+            A cone dripper and small kettle tuck into a cabinet. Avoid bean-to-cup if counter space is
+            already tight.
+          </li>
+          <li>
+            <strong class="font-medium text-ink">Closest to "push a button":</strong> Bean-to-cup super-automatic.
+            Honest caveat: machines start around $500 to $800 and climb from there. Skip this path if
+            upfront cost is the main blocker.
+          </li>
+        </ul>
+        <p>
+          In the calculator, <a href="/" class="link-brewdown">try the bulk brew gear presets in the calculator</a>:
+          select pods plus bulk brew, then switch between drip, French press, and pour-over presets to
+          see how grams per cup and machine cost change the chart.
+        </p>
+      </section>
+
+      <section class="space-y-8">
+        <h2 class="font-display text-2xl font-bold text-ink">The best Keurig alternatives, ranked by what matters</h2>
+
+        <div class="space-y-4">
+          <h3 class="font-display text-xl font-bold text-ink">Drip coffee maker</h3>
+          <p class="rounded-lg border border-[var(--line)] bg-paper-2 px-4 py-3 font-medium text-ink shadow-sm">
+            Best balance of set-and-forget convenience and low per-cup cost for multi-cup households.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Cost:</strong> ~$0.33 per cup in ingredients at $15/lb
+            beans and 10 g per cup; machines typically $80 to $200 (calculator default: $120).
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Time:</strong> Five to eight minutes, mostly passive.
+            Fill, press start, pour when ready.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Cleanup:</strong> Rinse the carafe and filter basket;
+            under a minute for most brewers.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Taste:</strong> Balanced body, familiar diner-style cup.
+            Not the brightest clarity, but consistent and easy to dial in with fresher beans.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Best for:</strong> Two or more coffee drinkers, or anyone
+            who wants a pot ready while getting dressed. Skip if you only ever want a single cup and hate
+            leftover coffee sitting on the warmer.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="font-display text-xl font-bold text-ink">French press</h3>
+          <p class="rounded-lg border border-[var(--line)] bg-paper-2 px-4 py-3 font-medium text-ink shadow-sm">
+            Cheapest path to noticeably better taste than pods with minimal gear.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Cost:</strong> ~$0.40 per cup at 12 g and $15/lb beans;
+            presses run $25 to $50 (calculator default: $30 machine).
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Time:</strong> Four-minute steep plus a minute to plunge
+            and pour. Boil water while you prep.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Cleanup:</strong> Rinse the mesh and dump grounds; about
+            90 seconds if you do it right after pouring. Grit in the cup is the common complaint; a coarser
+            grind and slow plunge help.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Taste:</strong> Full body, rich mouthfeel, more character
+            than a typical pod. Less clarity than pour-over, more heft.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Best for:</strong> Budget-conscious switchers who want
+            better coffee than Keurig without a big machine purchase. Skip if you refuse to touch wet
+            grounds before work.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="font-display text-xl font-bold text-ink">Pour-over</h3>
+          <p class="rounded-lg border border-[var(--line)] bg-paper-2 px-4 py-3 font-medium text-ink shadow-sm">
+            Best flavor clarity for people who do not mind two to three minutes of hands-on brewing.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Cost:</strong> ~$0.36 per cup at 11 g and $15/lb;
+            dripper plus kettle allowance ~$40 in calculator defaults.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Time:</strong> Two to three minutes of active pouring
+            after water is hot.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Cleanup:</strong> Toss the filter, quick rinse of the
+            dripper; low effort.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Taste:</strong> Clean, bright, nuanced. Highlights origin
+            notes pods flatten out.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Best for:</strong> One-cup drinkers who care about taste
+            and can spare a few focused minutes. Skip if mornings are pure chaos with no margin for technique.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="font-display text-xl font-bold text-ink">AeroPress</h3>
+          <p class="rounded-lg border border-[var(--line)] bg-paper-2 px-4 py-3 font-medium text-ink shadow-sm">
+            Best travel and small-kitchen option; fast, consistent, easy to learn.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Cost:</strong> Illustrative ~$0.36 to $0.40 per cup at
+            $15/lb and 11 to 12 g; gear $30 to $45 (not a separate calculator preset).
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Time:</strong> Two to three minutes including press;
+            faster than French press.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Cleanup:</strong> Pop the puck, rinse the plunger; among
+            the easiest manual methods.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Taste:</strong> Clean but with more body than pour-over;
+            forgiving for beginners.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Best for:</strong> Apartments, desks, and backup brews on
+            rush days. Skip if you need to serve a full household in one batch.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="font-display text-xl font-bold text-ink">Bean-to-cup (super-automatic)</h3>
+          <p class="rounded-lg border border-[var(--line)] bg-paper-2 px-4 py-3 font-medium text-ink shadow-sm">
+            True one-touch upgrade if you will pay higher upfront machine cost for long-run savings vs pods.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Cost:</strong> ~$0.46 per cup in ingredients at 14 g and
+            $15/lb; machines $500 to $2,000+ (calculator default: $800). Ingredient line stays below pods;
+            the crossover on total cost depends on volume and how long you keep the machine.
+            <a href="/" class="link-brewdown">Compare cumulative costs on the chart</a>
+            with pods selected alongside bean-to-cup.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Time:</strong> Roughly one minute, button to cup. Minimal
+            attention required.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Cleanup:</strong> Dump the puck drawer, rinse the milk system
+            on latte models; still low day to day.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Taste:</strong> Fresh-ground espresso-based drinks; wide range
+            by machine tier. Noticeably better than stale pod coffee when beans are decent.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Best for:</strong> Households that want Keurig-like convenience
+            without pod pricing forever. Skip if $800 upfront is not in the budget this year.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Machines worth a look</strong>:
+          </p>
+          <ul class="list-disc space-y-2 pl-5">
+            <li>
+              <a href="https://amzn.to/4gJI6iU" class="link-brewdown" rel="noopener noreferrer sponsored" target="_blank">Philips 3300 Series LatteGo</a>:
+              approachable entry super-automatic with milk drinks built in.
+            </li>
+            <li>
+              <a href="https://amzn.to/4gahbNa" class="link-brewdown" rel="noopener noreferrer sponsored" target="_blank">De'Longhi Magnifica Evo</a>:
+              compact bean-to-cup at a lower price tier than flagship models.
+            </li>
+            <li>
+              <a href="https://amzn.to/4gK1OuZ" class="link-brewdown" rel="noopener noreferrer sponsored" target="_blank">Terra Kaffe TK-02</a>:
+              app-connected brewing with a modern countertop footprint.
+            </li>
+            <li>
+              <a href="https://amzn.to/4w8HgAJ" class="link-brewdown" rel="noopener noreferrer sponsored" target="_blank">Jura ENA 8</a>:
+              slim premium one-touch for smaller kitchens.
+            </li>
+            <li>
+              <a href="https://amzn.to/3QK5l1K" class="link-brewdown" rel="noopener noreferrer sponsored" target="_blank">DeLonghi Eletta Explore</a>:
+              specialty drink options including cold brew on a higher-end platform.
+            </li>
+            <li>
+              <a href="https://amzn.to/4bgexSz" class="link-brewdown" rel="noopener noreferrer sponsored" target="_blank">xBloom Studio</a>:
+              pod-like workflow with whole-bean freshness for design-forward kitchens.
+            </li>
+          </ul>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="font-display text-xl font-bold text-ink">K-Cup / Keurig (baseline, not a recommendation)</h3>
+          <p class="rounded-lg border border-[var(--line)] bg-paper-2 px-4 py-3 font-medium text-ink shadow-sm">
+            Convenient baseline, highest ingredient cost in this comparison.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Cost:</strong> $0.80 per pod at calculator defaults;
+            brewer ~$120.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Time and cleanup:</strong> Fastest active time; toss the pod.
+          </p>
+          <p>
+            <strong class="font-medium text-ink">Why it is here:</strong> Pods set the bar for convenience.
+            Any alternative to Keurig should beat this on taste, cost, or both for your household.
+          </p>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-bold text-ink">Common worries when leaving Keurig behind</h2>
+
+        <p>
+          <strong class="font-medium text-ink">Time.</strong> Pods win on seconds. Drip is passive once
+          started; AeroPress adds two to three minutes of active time. French press is the slowest manual
+          path here at roughly five minutes door to cup. None of that is hobbyist-level effort.
+        </p>
+        <p>
+          <strong class="font-medium text-ink">Mess and cleanup.</strong> Ranked low to high: AeroPress and
+          drip, pour-over, bean-to-cup puck drawer, French press (wet grounds and mesh). Even French press
+          cleanup is usually under two minutes if you rinse immediately.
+        </p>
+        <p>
+          <strong class="font-medium text-ink">Consistency.</strong> Pods deliver the same cup every time.
+          Drip and AeroPress are close behind for beginners once you lock a recipe. Pour-over rewards
+          practice; French press is forgiving on technique.
+        </p>
+        <p>
+          <strong class="font-medium text-ink">Upfront gear cost.</strong> French press and AeroPress cost
+          less than many pod brewers. Bean-to-cup and espresso demand real machine spend up front. Brewdown
+          puts that machine cost on day one of the chart, not hidden inside per-cup math. Read
+          <a href="/about" class="link-brewdown">how Brewdown treats machine cost on day one</a>
+          for the full model.
+        </p>
+        <div class="overflow-x-auto rounded-lg border border-[var(--line)] bg-paper-2 shadow-md">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-[var(--line)] font-mono text-xs uppercase tracking-wide text-ink-3">
+                <th class="px-4 py-3 font-medium">Method</th>
+                <th class="px-4 py-3 font-medium">Typical machine cost</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--line)]">
+              <tr><td class="px-4 py-3">French press</td><td class="px-4 py-3">$25 to $50</td></tr>
+              <tr><td class="px-4 py-3">AeroPress</td><td class="px-4 py-3">$30 to $45</td></tr>
+              <tr><td class="px-4 py-3">Pour-over</td><td class="px-4 py-3">$30 to $80</td></tr>
+              <tr><td class="px-4 py-3">Drip</td><td class="px-4 py-3">$80 to $200</td></tr>
+              <tr><td class="px-4 py-3">K-Cup brewer</td><td class="px-4 py-3">~$120</td></tr>
+              <tr><td class="px-4 py-3">Bean-to-cup</td><td class="px-4 py-3">$500 to $2,000+</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          <strong class="font-medium text-ink">Taste adjustment.</strong> Before you give up on bulk brewing,
+          try slightly more coffee or fresher beans. Pods often taste "fine" because they are consistent, not
+          because they are peak flavor. A week of small tweaks beats switching methods twice.
+        </p>
+      </section>
+
+      <section class="space-y-6">
+        <h2 class="font-display text-2xl font-bold text-ink">FAQ: Keurig alternatives</h2>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">What is the cheapest alternative to a Keurig?</h3>
+          <p>
+            On ingredient cost alone, drip (~$0.33/cup) and French press (~$0.40/cup) lead at Brewdown
+            defaults. French press also has the lowest machine cost in the cluster. Pour-over is close
+            behind on beans.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">What tastes better than Keurig coffee?</h3>
+          <p>
+            Any fresh-ground bulk method usually wins on taste. Pour-over and AeroPress excel at clarity;
+            French press brings more body. Bean-to-cup closes the convenience gap while grinding fresh
+            for each cup.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">Is pour-over or French press easier for beginners?</h3>
+          <p>
+            French press has fewer steps: coarse grind, steep, plunge. Pour-over needs a steadier pour but
+            rewards practice quickly. If you want a guided switch from pods, follow our
+            <a href={post3Url} class="link-brewdown">7-day plan to quit pods</a>.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">How much money can I save vs K-Cups?</h3>
+          <p>
+            At two cups per day and pour-over ingredient math, savings are roughly $26/month vs $0.80 pods
+            (2 × $0.44 × 30 days). Your box price and beans matter;
+            <a href="/" class="link-brewdown">see your monthly savings in the calculator</a>
+            with your actual pod and bulk inputs.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">Are bean-to-cup machines worth it vs Keurig?</h3>
+          <p>
+            Worth it when you brew daily, plan to keep the machine several years, and want one-touch without
+            pod pricing. Not a universal yes: upfront cost is real. Compare ingredient lines and the
+            60-month chart in our
+            <a href={post2Url} class="link-brewdown">Keurig vs alternatives cost breakdown</a>.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">What can I do with my old Keurig?</h3>
+          <p>
+            Sell it locally, donate it, or keep it for guests while your household switches. No need to
+            trash a working brewer on day one of a transition.
+          </p>
+        </div>
+      </section>
+
+      <section class="rounded-lg border border-[var(--line)] bg-paper-2 px-5 py-6 shadow-md">
+        <h2 class="font-display text-2xl font-bold text-ink">Run your own numbers</h2>
+        <p class="mt-3">
+          Defaults are a starting point. Your beans price, cups per day, and shop habits change the answer.
+          Keep pods selected, add bulk brew with your preferred gear preset, and compare ingredient lines
+          plus the cumulative chart.
+        </p>
+        <p class="mt-4">
+          <a
+            href="/"
+            class="inline-block rounded-md bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand/90"
+          >
+            Run your own numbers
+          </a>
+        </p>
+        <p class="mt-4 text-sm">
+          Dig deeper:
+          <a href={post2Url} class="link-brewdown">cost assumptions and methodology</a>
+          ·
+          <a href={post3Url} class="link-brewdown">quit pods in 7 days</a>
+        </p>
+        <p class="mt-4 text-sm text-ink-3">
+          Pick one method this week, brew for 30 days, then benchmark what you actually saved.
+        </p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .link-brewdown {
+    color: var(--brand);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--brand) 40%, transparent);
+    text-underline-offset: 2px;
+  }
+
+  .link-brewdown:hover {
+    text-decoration-color: var(--brand);
+  }
+</style>

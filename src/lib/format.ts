@@ -1,5 +1,5 @@
 /** Grams in one avoirdupois pound (internal storage unit for bulk coffee). */
-export const GRAMS_PER_POUND = 453.592;
+export const GRAMS_PER_POUND = 453;
 
 /** Average days per calendar month (365 / 12). */
 export const DAYS_PER_MONTH = 365 / 12;

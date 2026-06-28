@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = [
+  {
+    slug: '/blog/best-keurig-alternatives',
+    title: 'Best Keurig Alternatives in 2026',
+    description:
+      'Compare drip, French press, pour-over, AeroPress, and bean-to-cup by cost per cup, time, cleanup, and taste.',
+    series: 'Keurig alternatives',
+    seriesOrder: 1,
+    publishedAt: '2026-06-27',
+  },
+  {
+    slug: '/blog/keurig-cost-per-cup-comparison',
+    title: 'Keurig vs French Press, AeroPress, Pour-Over, and Drip: Real Cost Per Cup',
+    description:
+      'Ingredient-only cost per cup with every assumption spelled out. Verify the math, then adjust beans, pods, and cups in the calculator.',
+    series: 'Keurig alternatives',
+    seriesOrder: 2,
+    publishedAt: '2026-06-27',
+  },
+  {
+    slug: '/blog/quit-keurig-pods-7-day-plan',
+    title: 'How to Quit Pods in 7 Days',
+    description:
+      'A day-by-day plan, shopping list, and busy-morning fallbacks to leave K-Cups behind without hobbyist gear.',
+    series: 'Keurig alternatives',
+    seriesOrder: 3,
+    publishedAt: '2026-06-27',
+  },
+];
+
+const publishedPosts = posts.filter((p) => p.publishedAt);
+---
+
+<BaseLayout
+  title="Blog | The Brewdown"
+  description="Articles on home coffee costs, brewing methods, and savings tips from The Brewdown."
+>
+  <article class="mx-auto max-w-3xl px-[var(--gutter)] py-10 md:py-14">
+    <p class="font-mono text-xs uppercase tracking-wide text-ink-3">Blog · The Brewdown</p>
+    <h1 class="mt-2 font-display text-4xl font-bold tracking-tight text-ink md:text-5xl">
+      Coffee cost insights
+    </h1>
+    <p class="mt-4 text-lg text-ink-2">
+      Guides and breakdowns on what home brewing actually costs. Read the Keurig alternatives series in order:
+      pick a method, verify the math, then follow the 7-day switch plan.
+    </p>
+
+    <p class="mt-4 text-sm text-ink-2">
+      <strong class="font-medium text-ink">Reading order:</strong> alternatives roundup → cost per cup comparison
+      → 7-day quit plan.
+    </p>
+
+    {
+      publishedPosts.length > 0 && (
+        <section class="mt-10 space-y-4" aria-label="Blog posts">
+          {publishedPosts
+            .sort((a, b) => (a.seriesOrder ?? 99) - (b.seriesOrder ?? 99))
+            .map((post) => (
+              <article class="rounded-lg border border-[var(--line)] bg-paper-2 px-5 py-5 shadow-md">
+                {post.series && (
+                  <p class="font-mono text-xs uppercase tracking-wide text-ink-3">{post.series}</p>
+                )}
+                <h2 class="mt-1 font-display text-xl font-bold text-ink">
+                  <a
+                    href={post.slug}
+                    class="text-brand underline decoration-brand/40 underline-offset-2 hover:decoration-brand"
+                  >
+                    {post.title}
+                  </a>
+                </h2>
+                <p class="mt-2 text-ink-2">{post.description}</p>
+                <time
+                  class="mt-2 block font-mono text-xs uppercase tracking-wide text-ink-3"
+                  datetime={post.publishedAt}
+                >
+                  {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </time>
+              </article>
+            ))}
+        </section>
+      )
+    }
+
+    <p class="mt-8 text-ink-2">
+      <a
+        href="/"
+        class="text-sm font-medium text-brand underline decoration-brand/40 underline-offset-2 hover:decoration-brand"
+      >
+        Open the calculator
+      </a>
+    </p>
+  </article>
+</BaseLayout>

@@ -1,0 +1,407 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const post1Url = '/blog/best-keurig-alternatives';
+const post3Url = '/blog/quit-keurig-pods-7-day-plan';
+---
+
+<BaseLayout
+  title="Keurig vs French Press, AeroPress, Pour-Over, and Drip: Real Cost Per Cup | The Brewdown"
+  description="See ingredient-only cost per cup for K-Cups vs bulk methods, with every assumption spelled out. Adjust beans price, cup size, and daily habits in our calculator."
+>
+  <article class="mx-auto max-w-3xl px-[var(--gutter)] py-10 md:py-14">
+    <p class="font-mono text-xs uppercase tracking-wide text-ink-3">
+      <a href="/blog" class="link-brewdown">Keurig alternatives series</a>
+      · The Brewdown
+    </p>
+    <h1 class="mt-2 font-display text-4xl font-bold tracking-tight text-ink md:text-5xl">
+      Keurig vs French Press, AeroPress, Pour-Over, and Drip: Real Cost Per Cup
+    </h1>
+    <p class="mt-4 text-lg text-ink-2">
+      Transparent keurig cost per cup math you can verify, aligned to The Brewdown calculator defaults.
+    </p>
+
+    <div class="prose-brewdown mt-10 space-y-10 text-ink-2">
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-bold text-ink">What a Keurig cup actually costs (and what you're comparing against)</h2>
+        <p>
+          This post answers one question: <strong class="font-medium text-ink">ingredient cost per cup</strong>,
+          not total cost of ownership. For cumulative charts that include machine spend and
+          café visits, use the calculator. Here we isolate what you pay for coffee in the cup.
+        </p>
+        <p>
+          At Brewdown defaults, a K-Cup runs <strong class="font-medium text-ink">$0.80</strong> per cup in
+          ingredients alone. Bulk methods cluster around <strong class="font-medium text-ink">$0.33 to $0.46</strong>
+          depending on grams per cup and brew style. That is roughly half the pod line on beans alone, before
+          you factor in machine upfront. Once you know the math, see
+          <a href={post1Url} class="link-brewdown">which Keurig alternative fits your household</a>
+          for taste, time, and cleanup tradeoffs.
+        </p>
+        <p>
+          Below: every assumption in a table, the formulas step by step, and sensitivity checks for beans
+          price, pod sales, and cups per day. Electricity, water, milk, and your time are excluded so the
+          comparison stays apples to apples.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-bold text-ink">Assumptions used in this comparison</h2>
+        <p>
+          Every number maps to Brewdown calculator defaults or is labeled illustrative. If your cart looks
+          different, swap any number in the calculator.
+        </p>
+        <div class="overflow-x-auto rounded-lg border border-[var(--line)] bg-paper-2 shadow-md">
+          <table class="w-full min-w-[36rem] text-left text-sm">
+            <thead>
+              <tr class="border-b border-[var(--line)] font-mono text-xs uppercase tracking-wide text-ink-3">
+                <th class="px-4 py-3 font-medium">Assumption</th>
+                <th class="px-4 py-3 font-medium">Value</th>
+                <th class="px-4 py-3 font-medium">Notes</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--line)]">
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Coffee price (bulk)</td>
+                <td class="px-4 py-3">$15.00 per lb</td>
+                <td class="px-4 py-3"></td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">K-Cup price</td>
+                <td class="px-4 py-3">$0.80 per pod</td>
+                <td class="px-4 py-3"></td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Cup size (drip)</td>
+                <td class="px-4 py-3">10 g coffee</td>
+                <td class="px-4 py-3">6 oz cup equivalent</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Cup size (French press)</td>
+                <td class="px-4 py-3">12 g</td>
+                <td class="px-4 py-3"></td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Cup size (pour-over)</td>
+                <td class="px-4 py-3">11 g</td>
+                <td class="px-4 py-3"></td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Cup size (bean-to-cup)</td>
+                <td class="px-4 py-3">14 g</td>
+                <td class="px-4 py-3"></td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">AeroPress (illustrative)</td>
+                <td class="px-4 py-3">11 g</td>
+                <td class="px-4 py-3">Same beans price; not a separate calculator preset</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Pods per cup</td>
+                <td class="px-4 py-3">1</td>
+                <td class="px-4 py-3">Standard K-Cup</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Grams per pound</td>
+                <td class="px-4 py-3">453</td>
+                <td class="px-4 py-3">Internal conversion constant</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Machine costs</td>
+                <td class="px-4 py-3">See method table below</td>
+                <td class="px-4 py-3">Upfront; not amortized in per-cup ingredient math</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Shop drinks</td>
+                <td class="px-4 py-3">4/month default</td>
+                <td class="px-4 py-3">Ongoing but separated from ingredient-only table</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Comparison horizon (cumulative)</td>
+                <td class="px-4 py-3">60 months</td>
+                <td class="px-4 py-3"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Your grocery receipt may not match $15/lb or $0.80 per pod. That is expected.
+          <a href="/" class="link-brewdown">Replace any number in the calculator</a>
+          with your actual beans price, K-Cup box cost, and grams per cup.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-bold text-ink">How we calculate cost per cup</h2>
+        <p>
+          <strong class="font-medium text-ink">Bulk methods:</strong>
+        </p>
+        <p class="rounded-lg border border-[var(--line)] bg-paper-2 px-4 py-3 font-mono text-sm text-ink shadow-sm">
+          ingredient cost per cup = grams per cup × (cost per lb ÷ 453)
+        </p>
+        <p>
+          <strong class="font-medium text-ink">Pods:</strong>
+        </p>
+        <p class="rounded-lg border border-[var(--line)] bg-paper-2 px-4 py-3 font-mono text-sm text-ink shadow-sm">
+          ingredient cost per cup = cost per pod × pods per cup
+        </p>
+        <p>
+          <strong class="font-medium text-ink">Worked example (French press):</strong>
+          12 g × ($15 ÷ 453) = $0.397, rounded to <strong class="font-medium text-ink">$0.40</strong>
+          in prose. You can plug your own numbers into the same formula.
+        </p>
+        <p>
+          This section does <strong class="font-medium text-ink">not</strong> include machine upfront cost,
+          café spend, or pour-over filters (annual consumables default to $0 in the calculator). Brewdown
+          puts machine cost on day one in cumulative comparisons; this post isolates the ingredient line
+          for a clean keurig vs french press cost and keurig vs drip coffee cost snapshot. Read the
+          <a href="/about" class="link-brewdown">full Brewdown cost model</a>
+          for what the 60-month chart includes.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-bold text-ink">Keurig vs alternatives: ingredient cost per cup</h2>
+        <p>
+          Results below use the assumptions table. These are k cup cost per cup and bulk-method equivalents
+          at default settings, not a verdict on total household spend.
+        </p>
+        <div class="overflow-x-auto rounded-lg border border-[var(--line)] bg-paper-2 shadow-md">
+          <table class="w-full min-w-[28rem] text-left text-sm">
+            <thead>
+              <tr class="border-b border-[var(--line)] font-mono text-xs uppercase tracking-wide text-ink-3">
+                <th class="px-4 py-3 font-medium">Method</th>
+                <th class="px-4 py-3 font-medium">Grams or pods per cup</th>
+                <th class="px-4 py-3 font-medium">Ingredient cost per cup</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--line)]">
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">K-Cup (Keurig)</td>
+                <td class="px-4 py-3">1 pod</td>
+                <td class="px-4 py-3">$0.80</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Drip</td>
+                <td class="px-4 py-3">10 g</td>
+                <td class="px-4 py-3">~$0.33</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Pour-over</td>
+                <td class="px-4 py-3">11 g</td>
+                <td class="px-4 py-3">~$0.36</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">AeroPress</td>
+                <td class="px-4 py-3">11 g (illustrative)</td>
+                <td class="px-4 py-3">~$0.36</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">French press</td>
+                <td class="px-4 py-3">12 g</td>
+                <td class="px-4 py-3">~$0.40</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-ink">Bean-to-cup</td>
+                <td class="px-4 py-3">14 g</td>
+                <td class="px-4 py-3">~$0.46</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Bulk methods cluster around half the pod ingredient cost at these defaults. Bean-to-cup uses more
+          coffee per cup (14 g) but still lands below $0.80 on ingredients alone. Keurig vs pour over cost
+          and keurig vs french press cost both favor bulk beans at every row in this table.
+        </p>
+        <div class="rounded-lg border border-[var(--line)] bg-paper-2 px-5 py-4 shadow-md">
+          <p class="font-display font-bold text-ink">At 2 cups per day</p>
+          <p class="mt-2">
+            Ingredient savings vs K-Cups using pour-over as the example: 2 × ($0.80 − $0.36) × 30 days ≈
+            <strong class="font-medium text-ink">$26/month</strong> on beans alone.
+            <a href="/" class="link-brewdown">See your monthly savings in the calculator</a>
+            with your cup count and preferred bulk method.
+          </p>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-bold text-ink">Upfront machine cost: why the cheapest cup is not always the cheapest year one</h2>
+        <p>
+          Ingredient math is only half the story. Machine cost hits your budget on day one in Brewdown's
+          model, not spread invisibly across per-cup figures.
+        </p>
+        <div class="overflow-x-auto rounded-lg border border-[var(--line)] bg-paper-2 shadow-md">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-[var(--line)] font-mono text-xs uppercase tracking-wide text-ink-3">
+                <th class="px-4 py-3 font-medium">Method</th>
+                <th class="px-4 py-3 font-medium">Default machine cost</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--line)]">
+              <tr><td class="px-4 py-3">French press</td><td class="px-4 py-3">$30</td></tr>
+              <tr><td class="px-4 py-3">Pour-over</td><td class="px-4 py-3">$40</td></tr>
+              <tr><td class="px-4 py-3">AeroPress (illustrative)</td><td class="px-4 py-3">~$35</td></tr>
+              <tr><td class="px-4 py-3">Drip</td><td class="px-4 py-3">$120</td></tr>
+              <tr><td class="px-4 py-3">K-Cup brewer</td><td class="px-4 py-3">$120</td></tr>
+              <tr><td class="px-4 py-3">Bean-to-cup</td><td class="px-4 py-3">$800</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          French press wins on both ingredients and upfront gear vs a Keurig brewer at defaults. Drip and
+          Keurig share a similar $120 machine default, but drip ingredient cost is lower. Bean-to-cup demands
+          real upfront spend; the case for switching depends on volume and how long you keep the machine.
+        </p>
+        <p>
+          Consider two cups per day over 60 months: pods vs French press. Ingredient savings accumulate every
+          month; the $30 press vs $120 brewer gap is a one-time hit on day one. The crossover on total
+          cumulative cost is easier to see than to hand-calculate.
+          <a href="/" class="link-brewdown">Compare cumulative costs on the chart</a>
+          with pods and bulk brew (French press preset) selected, then scroll the 60-month horizon.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-bold text-ink">What changes the comparison (beans, cups, and pod sales)</h2>
+        <p>
+          <strong class="font-medium text-ink">Beans at $10/lb vs $20/lb.</strong> French press recalculates
+          to roughly <strong class="font-medium text-ink">$0.26 to $0.53</strong> per cup (12 g × price ÷
+          453). Wider range than pods, but the top end still sits below a $0.80 K-Cup at default.
+        </p>
+        <p>
+          <strong class="font-medium text-ink">Pods at $0.55 (sale) vs $0.95 (premium).</strong> K-Cup
+          ingredient cost moves with the box, but bulk methods still win on beans at almost any reasonable
+          beans price. A good sale narrows the gap; it rarely closes it at two cups per day.
+        </p>
+        <p>
+          <strong class="font-medium text-ink">Cups per day.</strong> Ingredient savings scale linearly with
+          volume. At one cup per day, machine upfront matters more relative to monthly beans. At three or
+          more, ingredient delta dominates faster.
+        </p>
+        <p>
+          <strong class="font-medium text-ink">Takeaway:</strong> If you are asking is keurig cheaper than
+          brewing coffee on ingredients alone, bulk methods win at defaults and across most realistic price
+          swings. Pod sales help; they do not flip the default math.
+          <a href="/" class="link-brewdown">Open the calculator and adjust the assumptions</a>
+          for beans price, K-Cup price, and cups per day.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-bold text-ink">Ingredient cost is only part of the picture</h2>
+        <p>
+          Most calculator presets assume <strong class="font-medium text-ink">4 shop drinks per month</strong>
+          alongside home brewing. Better coffee at home may reduce café visits; Brewdown tracks shop spend as
+          a separate line so you do not double-count against ingredient tables.
+        </p>
+        <p>
+          If you grab a latte on the commute twice a week, home ingredient savings still matter, but shop
+          drinks belong in the model honestly. When you model your household, count café trips per method
+          rather than assuming zero.
+          <a href="/" class="link-brewdown">Set shop drinks honestly per method</a>
+          in the calculator alongside your pod and bulk inputs.
+        </p>
+      </section>
+
+      <section class="space-y-6">
+        <h2 class="font-display text-2xl font-bold text-ink">FAQ: Keurig pricing and comparisons</h2>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">How much does a K-Cup cost per cup?</h3>
+          <p>
+            At Brewdown defaults, <strong class="font-medium text-ink">$0.80</strong> per pod. Sales, store
+            brand multipacks, and premium roasts move that number. Divide your box price by pod count for your
+            actual k cup cost per cup.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">Is Keurig cheaper than drip coffee?</h3>
+          <p>
+            On ingredient cost: no at defaults (~$0.80 pod vs ~$0.33 drip). On machine upfront: similar
+            ($120 brewer for both in the calculator). Drip wins the per-cup beans line; total savings depend
+            on cups per day and how long you keep the gear.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">Keurig vs French press: which is cheaper?</h3>
+          <p>
+            French press wins on ingredients (~$0.40 vs $0.80) and machine cost ($30 vs $120 at defaults).
+            Cleanup is more hands-on. If the math convinces you and you want a low-friction switch,
+            <a href={post3Url} class="link-brewdown">switch to French press in a week</a>
+            with our day-by-day plan.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">Does expensive coffee make pods a better deal?</h3>
+          <p>
+            Worked example at $20/lb bulk: French press at 12 g ≈ $0.53 per cup. A $0.80 pod is still
+            higher on ingredients. You would need very cheap pods or very expensive specialty beans before
+            pods catch up on beans alone.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">Should I include the Keurig machine in cost per cup?</h3>
+          <p>
+            Brewdown does not hide machine cost inside per-cup ingredient math. The brewer appears as
+            upfront spend on day one of the cumulative chart. That keeps pod vs bulk ingredient tables clean
+            while still showing total cost over 60 months when you are ready.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-display text-lg font-bold text-ink">How do I compare my actual spending?</h3>
+          <p>
+            Open the calculator, select pods and one bulk method, then
+            <a href="/" class="link-brewdown">enter your pod box price and local beans</a>.
+            Match grams per cup to how you actually brew. The chart adds machine and shop lines on top of
+            ingredients.
+          </p>
+        </div>
+      </section>
+
+      <section class="rounded-lg border border-[var(--line)] bg-paper-2 px-5 py-6 shadow-md">
+        <h2 class="font-display text-2xl font-bold text-ink">Adjust the assumptions and see your crossover</h2>
+        <p class="mt-3">
+          This post uses ingredient-only snapshots. The calculator adds machine cost, daily volume, and café
+          spend on a 60-month chart. Select pods vs one bulk method from the results table, then change beans
+          price and K-Cup price to match your cart.
+        </p>
+        <p class="mt-4">
+          <a
+            href="/"
+            class="inline-block rounded-md bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand/90"
+          >
+            Open the calculator and adjust the assumptions
+          </a>
+        </p>
+        <p class="mt-4 text-sm">
+          Next steps:
+          <a href={post1Url} class="link-brewdown">pick a method from the alternatives guide</a>
+          ·
+          <a href={post3Url} class="link-brewdown">7-day plan to quit pods</a>
+        </p>
+        <p class="mt-4 text-sm text-ink-3">
+          Verify the math here, then let your real receipts and morning habits finish the argument.
+        </p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .link-brewdown {
+    color: var(--brand);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--brand) 40%, transparent);
+    text-underline-offset: 2px;
+  }
+
+  .link-brewdown:hover {
+    text-decoration-color: var(--brand);
+  }
+</style>
